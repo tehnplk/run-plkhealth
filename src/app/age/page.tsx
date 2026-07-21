@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowLeftIcon } from "@phosphor-icons/react/dist/ssr";
 import { loadAgeGroupData } from "@/lib/load-age-data";
+import { ExcelExportLink } from "@/components/excel-export-link";
 import { AgeBarChart } from "./age-bar-chart";
 import styles from "./age.module.css";
 
@@ -31,6 +32,10 @@ export default function AgePage() {
         </h1>
 
         <div className={styles.tableWrap}>
+          <div className={styles.tableHeader}>
+            <h2>ข้อมูลตามกลุ่มอายุ</h2>
+            <ExcelExportLink className={styles.exportLink} report="age" />
+          </div>
           <table>
             <thead>
               <tr>

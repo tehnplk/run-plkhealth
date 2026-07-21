@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowLeftIcon } from "@phosphor-icons/react/dist/ssr";
 import { loadDistrictData } from "@/lib/load-district-data";
+import { ExcelExportLink } from "@/components/excel-export-link";
 import {
   DistrictPieChart,
   type DistrictChartRow,
@@ -54,6 +55,10 @@ export default async function AmpPage() {
         </h1>
 
         <div className={styles.tableWrap}>
+          <div className={styles.tableHeader}>
+            <h2>ยอดสมัครรายอำเภอ</h2>
+            <ExcelExportLink className={styles.exportLink} report="amp" />
+          </div>
           <table>
             <thead>
               <tr>

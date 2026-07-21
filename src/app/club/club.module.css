@@ -12,7 +12,7 @@
 .back {
   position: absolute;
   top: 14px;
-  left: 16px;
+  right: 16px;
   display: inline-flex;
   align-items: center;
   gap: 7px;
@@ -38,8 +38,7 @@
   gap: 18px;
 }
 
-.tableWrap,
-.chartCard {
+.tableWrap {
   overflow: hidden;
   border: 1px solid #d9e2ec;
   border-radius: 16px;
@@ -47,8 +46,7 @@
   box-shadow: 0 8px 28px rgb(31 50 73 / 7%);
 }
 
-.tableHeader,
-.chartHeader {
+.tableHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -57,28 +55,40 @@
   border-bottom: 1px solid #e3eaf1;
 }
 
-.tableHeader h2,
-.chartHeader h2 {
+.tableHeader h2 {
   margin: 0;
   color: #263e56;
   font-size: 0.92rem;
 }
 
-.tableHeader span,
-.chartHeader span {
+.tableHeader span {
   color: #698094;
   font-size: 0.76rem;
   font-weight: 700;
 }
 
+.exportLink {
+  flex: none;
+  padding: 7px 11px;
+  border-radius: 8px;
+  background: #245f9a;
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.exportLink:hover {
+  background: #174a7b;
+}
+
 .tableScroll {
-  max-height: min(325px, 37svh);
-  overflow: auto;
+  overflow-x: auto;
 }
 
 .tableScroll table {
   width: 100%;
-  min-width: 920px;
+  min-width: 1040px;
   border-collapse: collapse;
   table-layout: fixed;
   background: #fff;
@@ -124,6 +134,16 @@
   font-variant-numeric: tabular-nums;
 }
 
+.tableScroll thead tr:first-child th:nth-child(2),
+.tableScroll td:nth-child(2) {
+  width: 155px;
+}
+
+.tableScroll thead tr:first-child th:nth-child(3),
+.tableScroll td:nth-child(3) {
+  width: 260px;
+}
+
 .tableScroll thead tr:first-child th:last-child,
 .tableScroll td:last-child {
   width: 120px;
@@ -142,19 +162,17 @@
   font-weight: 800;
 }
 
-.chartCard {
-  min-height: 510px;
-  padding-bottom: 10px;
+.districtTotalRow td {
+  background: #eaf2f8;
+  color: #244c6f;
+  font-weight: 800;
 }
 
-.chartHeader {
-  margin-bottom: 6px;
-}
-
-.chartCanvas {
-  position: relative;
-  height: 470px;
-  padding: 0 12px 8px;
+.districtSpacerRow td {
+  height: 30px;
+  padding: 0;
+  border-bottom: 0;
+  background: #fff;
 }
 
 .srOnly {
@@ -173,22 +191,4 @@
     padding-top: 64px;
   }
 
-  .tableScroll {
-    max-height: 300px;
-  }
-
-  .chartCard {
-    min-height: 470px;
-  }
-
-  .chartCanvas {
-    height: 430px;
-    padding-left: 4px;
-  }
-
-  .chartHeader {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 4px;
-  }
 }
