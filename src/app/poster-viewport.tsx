@@ -15,7 +15,13 @@ const minZoom = 60;
 const maxZoom = 200;
 const zoomStep = 10;
 
-export function PosterViewport({ children }: { children: ReactNode }) {
+export function PosterViewport({
+  children,
+  sidePanel,
+}: {
+  children: ReactNode;
+  sidePanel?: ReactNode;
+}) {
   const [zoom, setZoom] = useState(90);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -52,6 +58,7 @@ export function PosterViewport({ children }: { children: ReactNode }) {
           <div className={styles.zoomSurface} style={zoomStyle}>
             {children}
           </div>
+          {sidePanel}
         </div>
       </div>
 
