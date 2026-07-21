@@ -1,7 +1,7 @@
 .counter {
   position: fixed;
   z-index: 20;
-  right: max(72px, calc(env(safe-area-inset-right) + 60px));
+  left: max(14px, env(safe-area-inset-left));
   bottom: max(14px, env(safe-area-inset-bottom));
   display: inline-flex;
   align-items: baseline;
@@ -26,7 +26,7 @@
 
 @media (max-width: 560px) {
   .counter {
-    right: max(64px, calc(env(safe-area-inset-right) + 52px));
+    left: max(10px, env(safe-area-inset-left));
     bottom: max(10px, env(safe-area-inset-bottom));
     padding: 7px 9px;
   }
