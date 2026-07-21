@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Sans_Thai } from "next/font/google";
 import { VisitCounter } from "@/components/visit-counter";
+import "sweetalert2/dist/sweetalert2.min.css";
 import "./globals.css";
 
 const posterFont = Noto_Sans_Thai({

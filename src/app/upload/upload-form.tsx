@@ -2,6 +2,7 @@
 
 import { useRef, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 import styles from "./upload.module.css";
 
 type UploadResult = {
@@ -10,6 +11,8 @@ type UploadResult = {
   filename?: string;
   rowCount?: number;
 };
+
+const uploadAccessCode = "112233";
 
 export function UploadForm() {
   const router = useRouter();
@@ -26,12 +29,36 @@ export function UploadForm() {
       return;
     }
 
+    const confirmation = await Swal.fire({
+      title: "ยืนยันการนำเข้าข้อมูล",
+      text: "กรอกรหัสเพื่อแทนที่ข้อมูลเดิม",
+      input: "password",
+      inputLabel: "รหัสผ่าน",
+      inputPlaceholder: "กรอกรหัส 6 หลัก",
+      inputAttributes: {
+        inputMode: "numeric",
+        autoComplete: "one-time-code",
+        maxLength: "6",
+      },
+      showCancelButton: true,
+      confirmButtonText: "ยืนยัน",
+      cancelButtonText: "ยกเลิก",
+      confirmButtonColor: "#176da8",
+      inputValidator: (value) => {
+        if (!value) return "กรุณากรอกรหัส";
+        if (value !== uploadAccessCode) return "รหัสไม่ถูกต้อง";
+      },
+    });
+
+    if (!confirmation.isConfirmed) return;
+
     setPending(true);
     setResult(null);
 
     try {
       const formData = new FormData();
       formData.set("file", file);
+      formData.set("accessCode", confirmation.value);
 
       const response = await fetch("/api/upload", {
         method: "POST",

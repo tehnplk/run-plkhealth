@@ -5,6 +5,7 @@ import { replaceParticipants } from "@/lib/database";
 export const runtime = "nodejs";
 
 const maxFileSize = 20 * 1024 * 1024;
+const uploadAccessCode = "112233";
 const xlsxMimeType =
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
@@ -12,6 +13,11 @@ export async function POST(request: Request) {
   try {
     const formData = await request.formData();
     const upload = formData.get("file");
+    const accessCode = formData.get("accessCode");
+
+    if (accessCode !== uploadAccessCode) {
+      return Response.json({ error: "Invalid upload access code." }, { status: 403 });
+    }
 
     if (!(upload instanceof File)) {
       return Response.json({ error: "Select an XLSX file." }, { status: 400 });
