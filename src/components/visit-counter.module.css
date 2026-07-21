@@ -1,0 +1,33 @@
+.counter {
+  position: fixed;
+  z-index: 20;
+  right: max(72px, calc(env(safe-area-inset-right) + 60px));
+  bottom: max(14px, env(safe-area-inset-bottom));
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: 8px 11px;
+  border: 1px solid rgb(180 201 218 / 70%);
+  border-radius: 999px;
+  background: rgb(237 243 248 / 90%);
+  color: #526a80;
+  box-shadow: 0 4px 16px rgb(31 50 73 / 10%);
+  font-family: Arial, Tahoma, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  backdrop-filter: blur(10px);
+}
+
+.counter strong {
+  color: #244c6f;
+  font-size: 0.86rem;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 560px) {
+  .counter {
+    right: max(64px, calc(env(safe-area-inset-right) + 52px));
+    bottom: max(10px, env(safe-area-inset-bottom));
+    padding: 7px 9px;
+  }
+}

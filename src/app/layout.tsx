@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans_Thai } from "next/font/google";
+import { VisitCounter } from "@/components/visit-counter";
 import "./globals.css";
 
 const posterFont = Noto_Sans_Thai({
@@ -21,7 +22,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="th" className={posterFont.variable}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <VisitCounter />
+      </body>
     </html>
   );
 }

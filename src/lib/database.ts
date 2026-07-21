@@ -86,6 +86,14 @@ export function openDatabase() {
     CREATE INDEX IF NOT EXISTS idx_upload_log_uploaded_at
       ON upload_log (uploaded_at DESC);
 
+    CREATE TABLE IF NOT EXISTS visitor_log (
+      visitor_id TEXT PRIMARY KEY,
+      first_seen_at TEXT NOT NULL
+    ) STRICT;
+
+    CREATE INDEX IF NOT EXISTS idx_visitor_log_first_seen_at
+      ON visitor_log (first_seen_at DESC);
+
     INSERT INTO upload_log (filename, row_count, uploaded_at)
     SELECT filename, row_count, imported_at
     FROM import_metadata
@@ -188,6 +196,25 @@ export function getUploadHistory() {
         ORDER BY uploaded_at DESC, id DESC
       `)
       .all() as unknown as UploadLogEntry[];
+  } finally {
+    database.close();
+  }
+}
+
+export function registerVisitor(visitorId: string) {
+  const database = openDatabase();
+
+  try {
+    database
+      .prepare(
+        "INSERT OR IGNORE INTO visitor_log (visitor_id, first_seen_at) VALUES (?, ?)",
+      )
+      .run(visitorId, new Date().toISOString());
+    const result = database
+      .prepare("SELECT COUNT(*) AS count FROM visitor_log")
+      .get() as { count: number };
+
+    return Number(result.count);
   } finally {
     database.close();
   }
