@@ -97,7 +97,9 @@ export default async function Home() {
           <section className={`${styles.infoCard} ${styles.countdownCard}`} aria-label="Time remaining">
             <CardIcon type="calendar" />
             <span className={styles.cardContent}>
-              <span className={styles.cardEyebrow}>ยังเหลือเวลา</span>
+              <span className={styles.cardEyebrow}>
+                <strong className={styles.cardCloseWord}>ปิด</strong>รับสมัครใน
+              </span>
               <Countdown initialDays={daysRemaining()} />
             </span>
           </section>

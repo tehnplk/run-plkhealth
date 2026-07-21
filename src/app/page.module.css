@@ -157,6 +157,15 @@
   letter-spacing: 0.02em;
 }
 
+.cardCloseWord {
+  display: inline-block;
+  margin-right: 0.14em;
+  color: #fff;
+  font-size: 1.28em !important;
+  font-weight: 900 !important;
+  line-height: 0.9;
+}
+
 .infoCard strong {
   font-size: clamp(1.18rem, 1.65vw, 1.7rem);
   font-weight: 900;
@@ -174,6 +183,19 @@
   gap: 7px;
 }
 
+.countdownDayBadge {
+  width: fit-content;
+  padding: 3px 11px 6px;
+  border: 1px solid rgb(255 255 255 / 24%);
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ef4f54, #c92e4b);
+  box-shadow: 0 7px 16px rgb(104 22 64 / 24%);
+}
+
+.countdownDayBadge .cardUnit {
+  color: rgb(255 255 255 / 88%);
+}
+
 .cardUnit {
   color: rgb(255 255 255 / 78%);
   font-size: 0.9rem;
@@ -181,6 +203,8 @@
 }
 
 .countdownLine {
+  position: relative;
+  top: 3px;
   display: flex;
   align-items: baseline;
   gap: 8px;

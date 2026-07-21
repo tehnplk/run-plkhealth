@@ -57,7 +57,7 @@ export function Countdown({ initialDays }: { initialDays: number }) {
 
   return (
     <>
-      <span className={styles.cardValue}>
+      <span className={`${styles.cardValue} ${styles.countdownDayBadge}`}>
         <strong className={styles.cardNumber}>{remaining.days.toLocaleString("th-TH")}</strong>
         <span className={styles.cardUnit}>วัน</span>
       </span>
