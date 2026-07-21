@@ -106,11 +106,7 @@
 }
 
 .infoCards {
-  --card-navy: #012c74;
-  --card-blue: #012c74;
-  --card-coral: #ec6258;
-  --card-coral-deep: #cb405c;
-  --card-shadow: rgb(14 26 79 / 38%);
+  --card-shadow: rgb(37 35 97 / 28%);
   width: min(23vw, 310px);
   min-width: 260px;
   display: grid;
@@ -128,7 +124,7 @@
   overflow: hidden;
   border: 1px solid rgb(255 255 255 / 58%);
   border-radius: 20px;
-  background: linear-gradient(135deg, var(--card-navy), var(--card-blue));
+  background: linear-gradient(135deg, #078fa5 0%, #477fc5 100%);
   box-shadow: 0 16px 34px var(--card-shadow);
   color: #fff;
   backdrop-filter: blur(12px);
@@ -172,6 +168,10 @@
 .cardNumber {
   font-size: clamp(2rem, 3vw, 3.15rem) !important;
   font-variant-numeric: tabular-nums;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
 }
 
 .cardValue {
@@ -212,6 +212,10 @@
   color: #fff;
   font-variant-numeric: tabular-nums;
   text-align: right;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
 }
 
 .countdownDigit {
@@ -232,7 +236,7 @@
 }
 
 .registrationCard {
-  background: #012c74;
+  background: linear-gradient(135deg, #ff8147 0%, #e03b61 100%);
   box-shadow: 0 16px 34px var(--card-shadow);
   text-decoration: none;
   transition: transform 180ms ease, box-shadow 180ms ease;
@@ -259,11 +263,11 @@
 }
 
 .participantCard {
-  background: #012c74;
+  background: linear-gradient(135deg, #078a72 0%, #24b96f 100%);
 }
 
 .checkCard {
-  background: #012c74;
+  background: linear-gradient(135deg, #078fa5 0%, #477fc5 100%);
   box-shadow: 0 16px 34px var(--card-shadow);
   text-decoration: none;
   transition: transform 180ms ease, box-shadow 180ms ease;
@@ -283,7 +287,7 @@
 
 .countdownCard {
   border-color: rgb(255 255 255 / 58%);
-  background: #012c74;
+  background: linear-gradient(135deg, #2f5bad 0%, #7353bd 100%);
   box-shadow: 0 16px 34px var(--card-shadow);
 }
 
