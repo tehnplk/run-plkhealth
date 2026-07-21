@@ -78,6 +78,7 @@
 
 .tableScroll table {
   width: 100%;
+  min-width: 920px;
   border-collapse: collapse;
   table-layout: fixed;
   background: #fff;
@@ -105,14 +106,26 @@
   letter-spacing: 0.04em;
 }
 
-.tableScroll th:first-child,
+.tableScroll th[rowspan] {
+  vertical-align: middle;
+}
+
+.tableScroll thead tr:first-child th[colspan] {
+  text-align: center;
+}
+
+.tableScroll thead tr:nth-child(2) th {
+  top: 40px;
+}
+
+.tableScroll thead tr:first-child th:first-child,
 .tableScroll td:first-child {
   width: 72px;
   text-align: center;
   font-variant-numeric: tabular-nums;
 }
 
-.tableScroll th:last-child,
+.tableScroll thead tr:first-child th:last-child,
 .tableScroll td:last-child {
   width: 120px;
   text-align: right;

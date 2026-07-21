@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowLeftIcon } from "@phosphor-icons/react/dist/ssr";
-import { loadPosterData } from "@/lib/load-poster-data";
+import { loadDistrictData } from "@/lib/load-district-data";
 import {
   DistrictPieChart,
   type DistrictChartRow,
@@ -8,18 +8,6 @@ import {
 import styles from "../district/district.module.css";
 
 export const dynamic = "force-dynamic";
-
-const districtOrder = [
-  "เมืองพิษณุโลก",
-  "เนินมะปราง",
-  "วังทอง",
-  "วัดโบสถ์",
-  "ชาติตระการ",
-  "พรหมพิราม",
-  "บางระกำ",
-  "บางกระทุ่ม",
-  "นครไทย",
-];
 
 const chartColors = [
   "#4e79a7",
@@ -34,16 +22,24 @@ const chartColors = [
 ];
 
 export default async function AmpPage() {
-  const posterData = await loadPosterData();
-  const byLabel = new Map(
-    posterData.districts.map((district) => [district.label, district.registered]),
-  );
-  const rows: DistrictChartRow[] = districtOrder.map((label, index) => ({
-    label,
-    value: byLabel.get(label) ?? 0,
+  const { activities, rows: districtRows } = loadDistrictData();
+  const rows: DistrictChartRow[] = districtRows.map((row, index) => ({
+    label: row.label,
+    value: row.registered,
     color: chartColors[index],
   }));
-  const total = rows.reduce((sum, row) => sum + row.value, 0);
+  const summary = {
+    activityCounts: Object.fromEntries(
+      activities.map((activity) => [
+        activity,
+        districtRows.reduce(
+          (sum, row) => sum + (row.activityCounts[activity] ?? 0),
+          0,
+        ),
+      ]),
+    ),
+    registered: districtRows.reduce((sum, row) => sum + row.registered, 0),
+  };
 
   return (
     <main className={styles.page}>
@@ -61,23 +57,39 @@ export default async function AmpPage() {
           <table>
             <thead>
               <tr>
-                <th>ลำดับ</th>
-                <th>อำเภอ</th>
-                <th>จำนวน</th>
+                <th rowSpan={2}>ลำดับ</th>
+                <th rowSpan={2}>อำเภอ</th>
+                <th colSpan={activities.length}>ประเภทกิจกรรม</th>
+                <th rowSpan={2}>รวมยอดผู้สมัคร</th>
+              </tr>
+              <tr>
+                {activities.map((activity) => (
+                  <th key={activity}>{activity}</th>
+                ))}
               </tr>
             </thead>
             <tbody>
-              {rows.map((row, index) => (
+              {districtRows.map((row, index) => (
                 <tr key={row.label}>
                   <td>{index + 1}</td>
                   <td>{row.label}</td>
-                  <td>{row.value.toLocaleString("th-TH")}</td>
+                  {activities.map((activity) => (
+                    <td key={activity}>
+                      {(row.activityCounts[activity] ?? 0).toLocaleString("th-TH")}
+                    </td>
+                  ))}
+                  <td>{row.registered.toLocaleString("th-TH")}</td>
                 </tr>
               ))}
               <tr className={styles.totalRow}>
                 <td aria-hidden="true"></td>
                 <td>รวม</td>
-                <td>{total.toLocaleString("th-TH")}</td>
+                {activities.map((activity) => (
+                  <td key={activity}>
+                    {(summary.activityCounts[activity] ?? 0).toLocaleString("th-TH")}
+                  </td>
+                ))}
+                <td>{summary.registered.toLocaleString("th-TH")}</td>
               </tr>
             </tbody>
           </table>

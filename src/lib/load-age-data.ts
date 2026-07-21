@@ -1,5 +1,6 @@
 import "server-only";
 
+import { compareActivities } from "@/lib/activity-distance";
 import { openDatabase } from "@/lib/database";
 
 export type AgeGroupRow = {
@@ -20,17 +21,6 @@ type QueryRow = {
 };
 
 const ageGroupOrder = ["<18", "19-29", "30-39", "40-49", "50-59", "60+"];
-const activityPrefixOrder = ["เดิน", "วิ่ง", "ปั่น"];
-
-function compareActivities(first: string, second: string) {
-  const firstOrder = activityPrefixOrder.findIndex((prefix) => first.startsWith(prefix));
-  const secondOrder = activityPrefixOrder.findIndex((prefix) => second.startsWith(prefix));
-  const firstRank = firstOrder === -1 ? activityPrefixOrder.length : firstOrder;
-  const secondRank = secondOrder === -1 ? activityPrefixOrder.length : secondOrder;
-
-  return firstRank - secondRank || first.localeCompare(second, "th-TH");
-}
-
 export function loadAgeGroupData(): AgeGroupData {
   const database = openDatabase();
 

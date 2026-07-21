@@ -9,9 +9,17 @@ export const dynamic = "force-dynamic";
 const chartLimit = 15;
 
 export default function ClubPage() {
-  const rows = loadClubData();
+  const { activities, rows } = loadClubData();
   const chartRows = rows.slice(0, chartLimit);
-  const total = rows.reduce((sum, row) => sum + row.registered, 0);
+  const summary = {
+    activityCounts: Object.fromEntries(
+      activities.map((activity) => [
+        activity,
+        rows.reduce((sum, row) => sum + (row.activityCounts[activity] ?? 0), 0),
+      ]),
+    ),
+    registered: rows.reduce((sum, row) => sum + row.registered, 0),
+  };
 
   return (
     <main className={styles.page}>
@@ -34,9 +42,15 @@ export default function ClubPage() {
             <table>
               <thead>
                 <tr>
-                  <th>ลำดับ</th>
-                  <th>ชมรม</th>
-                  <th>จำนวนผู้สมัคร</th>
+                  <th rowSpan={2}>ลำดับ</th>
+                  <th rowSpan={2}>ชมรม</th>
+                  <th colSpan={activities.length}>ประเภทกิจกรรม</th>
+                  <th rowSpan={2}>รวมยอดผู้สมัคร</th>
+                </tr>
+                <tr>
+                  {activities.map((activity) => (
+                    <th key={activity}>{activity}</th>
+                  ))}
                 </tr>
               </thead>
               <tbody>
@@ -44,13 +58,23 @@ export default function ClubPage() {
                   <tr key={row.label}>
                     <td>{index + 1}</td>
                     <td>{row.label}</td>
+                    {activities.map((activity) => (
+                      <td key={activity}>
+                        {(row.activityCounts[activity] ?? 0).toLocaleString("th-TH")}
+                      </td>
+                    ))}
                     <td>{row.registered.toLocaleString("th-TH")}</td>
                   </tr>
                 ))}
                 <tr className={styles.totalRow}>
                   <td aria-hidden="true"></td>
                   <td>รวม</td>
-                  <td>{total.toLocaleString("th-TH")}</td>
+                  {activities.map((activity) => (
+                    <td key={activity}>
+                      {(summary.activityCounts[activity] ?? 0).toLocaleString("th-TH")}
+                    </td>
+                  ))}
+                  <td>{summary.registered.toLocaleString("th-TH")}</td>
                 </tr>
               </tbody>
             </table>
@@ -59,7 +83,7 @@ export default function ClubPage() {
 
         <section className={styles.chartCard} aria-labelledby="club-chart-title">
           <div className={styles.chartHeader}>
-            <h2 id="club-chart-title">15 อันดับชมรมที่มีผู้สมัครสูงสุด</h2>
+            <h2 id="club-chart-title">15 อันดับชมรมตามรวมยอดผู้สมัคร</h2>
             <span>เรียงจากมากไปน้อย</span>
           </div>
           <ClubBarChart rows={chartRows} />
