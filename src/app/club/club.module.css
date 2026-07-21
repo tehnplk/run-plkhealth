@@ -1,0 +1,182 @@
+.page {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 54px 18px 28px;
+  background: #f3f4f6;
+  color: #111;
+  font-family: Arial, Tahoma, sans-serif;
+}
+
+.back {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 12px;
+  border: 1px solid #c9d4df;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 84%);
+  color: #344f69;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.back:hover {
+  border-color: #4e79a7;
+  color: #245f9a;
+}
+
+.report {
+  width: min(1040px, 100%);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+}
+
+.tableWrap,
+.chartCard {
+  overflow: hidden;
+  border: 1px solid #d9e2ec;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 8px 28px rgb(31 50 73 / 7%);
+}
+
+.tableHeader,
+.chartHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 13px 16px;
+  border-bottom: 1px solid #e3eaf1;
+}
+
+.tableHeader h2,
+.chartHeader h2 {
+  margin: 0;
+  color: #263e56;
+  font-size: 0.92rem;
+}
+
+.tableHeader span,
+.chartHeader span {
+  color: #698094;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.tableScroll {
+  max-height: min(325px, 37svh);
+  overflow: auto;
+}
+
+.tableScroll table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  background: #fff;
+  font-size: 0.84rem;
+  line-height: 1.25;
+}
+
+.tableScroll th,
+.tableScroll td {
+  height: 30px;
+  padding: 5px 14px;
+  border: 0;
+  border-bottom: 1px solid #e7edf3;
+  text-align: left;
+}
+
+.tableScroll th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #edf3f8;
+  color: #334b63;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.tableScroll th:first-child,
+.tableScroll td:first-child {
+  width: 72px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.tableScroll th:last-child,
+.tableScroll td:last-child {
+  width: 120px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.tableScroll tbody tr:not(.totalRow):hover {
+  background: #f8fbfd;
+}
+
+.totalRow td {
+  border-bottom: 0;
+  background: #f4f8fb;
+  color: #20384f;
+  font-weight: 800;
+}
+
+.chartCard {
+  min-height: 510px;
+  padding-bottom: 10px;
+}
+
+.chartHeader {
+  margin-bottom: 6px;
+}
+
+.chartCanvas {
+  position: relative;
+  height: 470px;
+  padding: 0 12px 8px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .page {
+    display: block;
+    padding-top: 64px;
+  }
+
+  .tableScroll {
+    max-height: 300px;
+  }
+
+  .chartCard {
+    min-height: 470px;
+  }
+
+  .chartCanvas {
+    height: 430px;
+    padding-left: 4px;
+  }
+
+  .chartHeader {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+}

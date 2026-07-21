@@ -75,6 +75,9 @@ export function PosterViewport({ children }: { children: ReactNode }) {
             <Link href="/age" onClick={() => setMenuOpen(false)}>
               ข้อมูลตามกลุ่มอายุ
             </Link>
+            <Link href="/club" onClick={() => setMenuOpen(false)}>
+              ข้อมูลแยกรายชมรม
+            </Link>
             <Link href="/upload" onClick={() => setMenuOpen(false)}>
               Upload
             </Link>

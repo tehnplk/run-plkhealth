@@ -46,6 +46,10 @@ export default async function Home() {
   const posterData = await loadPosterData();
   const mainRows = [...posterData.districts, posterData.otherProvince, posterData.summary];
   const activityRows = [...posterData.activities, posterData.activitySummary];
+  const activityLabels = [
+    ...posterData.activities.map((activity) => activity.label),
+    posterData.activitySummary.label,
+  ];
   const progressWidth = Math.min(100, Math.max(0, posterData.completionPercent));
 
   return (
@@ -104,6 +108,7 @@ export default async function Home() {
         <div
           id="age-groups"
           className={styles.activityNumbers}
+          style={{ gridTemplateRows: `repeat(${activityRows.length}, 1fr)` }}
           aria-label="ข้อมูลผู้สมัครแยกตามประเภทกิจกรรม"
         >
           {activityRows.map((row) => (
@@ -112,6 +117,22 @@ export default async function Home() {
               <span>{formatNumber(row.adults)}</span>
               <span>{formatNumber(row.total)}</span>
             </div>
+          ))}
+        </div>
+
+        <div
+          className={styles.activityLabels}
+          style={{ gridTemplateRows: `repeat(${activityLabels.length}, 1fr)` }}
+          aria-label="ชื่อประเภทกิจกรรม"
+        >
+          {activityLabels.map((label, index) => (
+            <span
+              className={styles.activityLabel}
+              data-summary={index === activityLabels.length - 1 || undefined}
+              key={`${label}-${index}`}
+            >
+              {label}
+            </span>
           ))}
         </div>
       </section>

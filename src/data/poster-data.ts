@@ -35,12 +35,6 @@ export const districtReferences = [
   { label: "เนินมะปราง", population: 56522, target: 294 },
 ] as const;
 
-export const activityReferences = [
-  { label: "เดิน 5 กม.", distancePrefix: "เดิน" },
-  { label: "วิ่ง 5 กม.", distancePrefix: "วิ่ง" },
-  { label: "ปั่น 17 กม.", distancePrefix: "ปั่น" },
-] as const;
-
 // These totals are part of the approved poster artwork and are not columns in
 // raw_data.xlsx. Registered and activity figures are derived from the workbook.
 export const posterReferenceTotals = {

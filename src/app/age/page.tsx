@@ -7,16 +7,16 @@ import styles from "./age.module.css";
 export const dynamic = "force-dynamic";
 
 export default function AgePage() {
-  const rows = loadAgeGroupData();
-  const summary = rows.reduce(
-    (total, row) => ({
-      cycling: total.cycling + row.cycling,
-      running: total.running + row.running,
-      walking: total.walking + row.walking,
-      total: total.total + row.total,
-    }),
-    { cycling: 0, running: 0, walking: 0, total: 0 },
-  );
+  const { activities, rows } = loadAgeGroupData();
+  const summary = {
+    activityCounts: Object.fromEntries(
+      activities.map((activity) => [
+        activity,
+        rows.reduce((sum, row) => sum + (row.activityCounts[activity] ?? 0), 0),
+      ]),
+    ),
+    total: rows.reduce((sum, row) => sum + row.total, 0),
+  };
 
   return (
     <main className={styles.page}>
@@ -34,10 +34,10 @@ export default function AgePage() {
           <table>
             <thead>
               <tr>
-                <th>Age Group</th>
-                <th>ปั่น 17 กม.</th>
-                <th>วิ่ง 10 กม.</th>
-                <th>เดิน 5 กม.</th>
+                <th>กลุ่มอายุ</th>
+                {activities.map((activity) => (
+                  <th key={activity}>{activity}</th>
+                ))}
                 <th>รวม</th>
               </tr>
             </thead>
@@ -45,17 +45,21 @@ export default function AgePage() {
               {rows.map((row) => (
                 <tr key={row.label}>
                   <td>{row.label}</td>
-                  <td>{row.cycling.toLocaleString("th-TH")}</td>
-                  <td>{row.running.toLocaleString("th-TH")}</td>
-                  <td>{row.walking.toLocaleString("th-TH")}</td>
+                  {activities.map((activity) => (
+                    <td key={activity}>
+                      {(row.activityCounts[activity] ?? 0).toLocaleString("th-TH")}
+                    </td>
+                  ))}
                   <td>{row.total.toLocaleString("th-TH")}</td>
                 </tr>
               ))}
               <tr className={styles.totalRow}>
                 <td>รวม</td>
-                <td>{summary.cycling.toLocaleString("th-TH")}</td>
-                <td>{summary.running.toLocaleString("th-TH")}</td>
-                <td>{summary.walking.toLocaleString("th-TH")}</td>
+                {activities.map((activity) => (
+                  <td key={activity}>
+                    {(summary.activityCounts[activity] ?? 0).toLocaleString("th-TH")}
+                  </td>
+                ))}
                 <td>{summary.total.toLocaleString("th-TH")}</td>
               </tr>
             </tbody>
@@ -63,7 +67,7 @@ export default function AgePage() {
         </div>
 
         <div className={styles.chartCard}>
-          <AgeBarChart rows={rows} />
+          <AgeBarChart activities={activities} rows={rows} />
         </div>
       </section>
     </main>

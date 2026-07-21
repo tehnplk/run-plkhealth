@@ -50,7 +50,8 @@
 }
 
 .districtNumbers,
-.activityNumbers {
+.activityNumbers,
+.activityLabels {
   position: absolute;
   z-index: 1;
   display: grid;
@@ -116,6 +117,42 @@
   grid-template-rows: repeat(4, 1fr);
   font-size: 2.02cqw;
   line-height: 1;
+}
+
+.activityLabels {
+  left: 3.18%;
+  top: 71.55%;
+  width: 18.96%;
+  height: 21.35%;
+  grid-template-rows: repeat(4, 1fr);
+  color: #050505;
+  font-size: 1.8cqw;
+  line-height: 1;
+  text-align: center;
+}
+
+.activityLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding-inline: 0.35cqw;
+  border-right: max(1px, 0.106cqw) solid #181818;
+  border-bottom: max(1px, 0.106cqw) solid #181818;
+  border-left: max(1px, 0.106cqw) solid #181818;
+  background: #f8f8f8;
+  font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.activityLabel:first-child {
+  border-top: max(1px, 0.106cqw) solid #181818;
+}
+
+.activityLabel[data-summary] {
+  background: #00bd67;
 }
 
 .activityRow {

@@ -4,23 +4,34 @@ import { openDatabase } from "@/lib/database";
 
 export type AgeGroupRow = {
   label: string;
-  cycling: number;
-  running: number;
-  walking: number;
+  activityCounts: Record<string, number>;
   total: number;
+};
+
+export type AgeGroupData = {
+  activities: string[];
+  rows: AgeGroupRow[];
 };
 
 type QueryRow = {
   ageGroup: string;
-  cycling: number;
-  running: number;
-  walking: number;
-  total: number;
+  distance: string;
+  registered: number;
 };
 
 const ageGroupOrder = ["<18", "19-29", "30-39", "40-49", "50-59", "60+"];
+const activityPrefixOrder = ["เดิน", "วิ่ง", "ปั่น"];
 
-export function loadAgeGroupData(): AgeGroupRow[] {
+function compareActivities(first: string, second: string) {
+  const firstOrder = activityPrefixOrder.findIndex((prefix) => first.startsWith(prefix));
+  const secondOrder = activityPrefixOrder.findIndex((prefix) => second.startsWith(prefix));
+  const firstRank = firstOrder === -1 ? activityPrefixOrder.length : firstOrder;
+  const secondRank = secondOrder === -1 ? activityPrefixOrder.length : secondOrder;
+
+  return firstRank - secondRank || first.localeCompare(second, "th-TH");
+}
+
+export function loadAgeGroupData(): AgeGroupData {
   const database = openDatabase();
 
   try {
@@ -35,27 +46,39 @@ export function loadAgeGroupData(): AgeGroupRow[] {
             WHEN age BETWEEN 50 AND 59 THEN '50-59'
             ELSE '60+'
           END AS ageGroup,
-          SUM(CASE WHEN distance LIKE 'ปั่น%' THEN 1 ELSE 0 END) AS cycling,
-          SUM(CASE WHEN distance LIKE 'วิ่ง%' THEN 1 ELSE 0 END) AS running,
-          SUM(CASE WHEN distance LIKE 'เดิน%' THEN 1 ELSE 0 END) AS walking,
-          COUNT(*) AS total
+          TRIM(distance) AS distance,
+          COUNT(*) AS registered
         FROM participants
-        GROUP BY ageGroup
+        WHERE TRIM(distance) <> ''
+        GROUP BY ageGroup, TRIM(distance)
       `)
       .all() as QueryRow[];
-    const byGroup = new Map(result.map((row) => [row.ageGroup, row]));
 
-    return ageGroupOrder.map((label) => {
-      const row = byGroup.get(label);
+    const activities = [...new Set(result.map((row) => row.distance))].sort(
+      compareActivities,
+    );
+    const countsByGroup = new Map<string, Map<string, number>>();
+
+    for (const row of result) {
+      const activityCounts = countsByGroup.get(row.ageGroup) ?? new Map<string, number>();
+      activityCounts.set(row.distance, Number(row.registered));
+      countsByGroup.set(row.ageGroup, activityCounts);
+    }
+
+    const rows = ageGroupOrder.map((label) => {
+      const counts = countsByGroup.get(label) ?? new Map<string, number>();
+      const activityCounts = Object.fromEntries(
+        activities.map((activity) => [activity, counts.get(activity) ?? 0]),
+      );
 
       return {
         label,
-        cycling: Number(row?.cycling ?? 0),
-        running: Number(row?.running ?? 0),
-        walking: Number(row?.walking ?? 0),
-        total: Number(row?.total ?? 0),
+        activityCounts,
+        total: Object.values(activityCounts).reduce((sum, count) => sum + count, 0),
       };
     });
+
+    return { activities, rows };
   } finally {
     database.close();
   }

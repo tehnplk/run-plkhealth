@@ -2,7 +2,6 @@ import "server-only";
 
 import { openDatabase } from "@/lib/database";
 import {
-  activityReferences,
   districtReferences,
   posterReferenceTotals,
   type ActivityStat,
@@ -11,7 +10,7 @@ import {
 
 type DistrictCount = { residence: string; registered: number };
 type ActivityCount = {
-  activity: string;
+  label: string;
   children: number;
   adults: number;
   total: number;
@@ -33,17 +32,21 @@ export async function loadPosterData(): Promise<PosterData> {
     const activityRows = database
       .prepare(`
         SELECT
-          CASE
-            WHEN distance LIKE 'เดิน%' THEN 'เดิน'
-            WHEN distance LIKE 'วิ่ง%' THEN 'วิ่ง'
-            WHEN distance LIKE 'ปั่น%' THEN 'ปั่น'
-          END AS activity,
+          TRIM(distance) AS label,
           SUM(CASE WHEN age BETWEEN 7 AND 18 THEN 1 ELSE 0 END) AS children,
           SUM(CASE WHEN age BETWEEN 7 AND 18 THEN 0 ELSE 1 END) AS adults,
           COUNT(*) AS total
         FROM participants
-        WHERE distance LIKE 'เดิน%' OR distance LIKE 'วิ่ง%' OR distance LIKE 'ปั่น%'
-        GROUP BY activity
+        WHERE TRIM(distance) <> ''
+        GROUP BY TRIM(distance)
+        ORDER BY
+          CASE
+            WHEN TRIM(distance) LIKE 'เดิน%' THEN 1
+            WHEN TRIM(distance) LIKE 'วิ่ง%' THEN 2
+            WHEN TRIM(distance) LIKE 'ปั่น%' THEN 3
+            ELSE 4
+          END,
+          TRIM(distance) COLLATE NOCASE ASC
       `)
       .all() as ActivityCount[];
     const totalRow = database
@@ -72,19 +75,12 @@ export async function loadPosterData(): Promise<PosterData> {
       };
     });
 
-    const activityCounts = new Map(
-      activityRows.map((row) => [row.activity, row]),
-    );
-    const activities: ActivityStat[] = activityReferences.map((reference) => {
-      const counts = activityCounts.get(reference.distancePrefix);
-
-      return {
-        label: reference.label,
-        children: Number(counts?.children ?? 0),
-        adults: Number(counts?.adults ?? 0),
-        total: Number(counts?.total ?? 0),
-      };
-    });
+    const activities: ActivityStat[] = activityRows.map((row) => ({
+      label: row.label,
+      children: Number(row.children),
+      adults: Number(row.adults),
+      total: Number(row.total),
+    }));
     const activitySummary = activities.reduce<ActivityStat>(
       (summary, activity) => ({
         ...summary,

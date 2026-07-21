@@ -6,12 +6,14 @@ import type { BarElement, Plugin } from "chart.js";
 import type { AgeGroupRow } from "@/lib/load-age-data";
 import styles from "./age.module.css";
 
+const chartColors = ["#4e79a7", "#f28e2b", "#59a14f", "#b07aa1", "#76b7b2"];
+
 const valueLabels: Plugin<"bar"> = {
   id: "age-value-labels",
   afterDatasetsDraw(chart) {
     chart.ctx.save();
-    chart.ctx.fillStyle = "#333333";
-    chart.ctx.font = "10px Arial, sans-serif";
+    chart.ctx.fillStyle = "#263b50";
+    chart.ctx.font = "700 10px Arial, sans-serif";
     chart.ctx.textAlign = "center";
     chart.ctx.textBaseline = "bottom";
 
@@ -20,7 +22,10 @@ const valueLabels: Plugin<"bar"> = {
 
       meta.data.forEach((element, index) => {
         const value = Number(dataset.data[index] ?? 0);
+        if (value === 0) return;
+
         const bar = element as BarElement;
+        if (bar.x === null || bar.y === null) return;
         chart.ctx.fillText(value.toLocaleString("th-TH"), bar.x, bar.y - 3);
       });
     });
@@ -29,7 +34,13 @@ const valueLabels: Plugin<"bar"> = {
   },
 };
 
-export function AgeBarChart({ rows }: { rows: AgeGroupRow[] }) {
+export function AgeBarChart({
+  rows,
+  activities,
+}: {
+  rows: AgeGroupRow[];
+  activities: string[];
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -39,26 +50,13 @@ export function AgeBarChart({ rows }: { rows: AgeGroupRow[] }) {
       type: "bar",
       data: {
         labels: rows.map((row) => row.label),
-        datasets: [
-          {
-            label: "ปั่น 17 กม.",
-            data: rows.map((row) => row.cycling),
-            backgroundColor: "#4f81bd",
-            borderWidth: 0,
-          },
-          {
-            label: "วิ่ง 10 กม.",
-            data: rows.map((row) => row.running),
-            backgroundColor: "#c0504d",
-            borderWidth: 0,
-          },
-          {
-            label: "เดิน 5 กม.",
-            data: rows.map((row) => row.walking),
-            backgroundColor: "#9bbb59",
-            borderWidth: 0,
-          },
-        ],
+        datasets: activities.map((activity, index) => ({
+          label: activity,
+          data: rows.map((row) => row.activityCounts[activity] ?? 0),
+          backgroundColor: chartColors[index % chartColors.length],
+          borderRadius: 4,
+          borderSkipped: false,
+        })),
       },
       options: {
         responsive: true,
@@ -73,7 +71,11 @@ export function AgeBarChart({ rows }: { rows: AgeGroupRow[] }) {
           },
           y: {
             beginAtZero: true,
-            ticks: { color: "#4b4b4b", font: { family: "Arial", size: 10 } },
+            ticks: {
+              color: "#4b4b4b",
+              font: { family: "Arial", size: 10 },
+              precision: 0,
+            },
             grid: { color: "#d9d9d9" },
             border: { display: false },
           },
@@ -102,7 +104,7 @@ export function AgeBarChart({ rows }: { rows: AgeGroupRow[] }) {
     });
 
     return () => chart.destroy();
-  }, [rows]);
+  }, [activities, rows]);
 
   return (
     <div className={styles.chartCanvas}>
