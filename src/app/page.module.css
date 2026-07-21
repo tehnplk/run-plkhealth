@@ -3,10 +3,13 @@
   width: 100vw;
   height: 100svh;
   overflow: hidden;
-  background: #1d315f;
+  isolation: isolate;
+  background: linear-gradient(135deg, #31105e 0%, #6d39b4 52%, #9a58ca 100%);
 }
 
 .stage {
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: 100%;
   overflow: auto;
@@ -28,6 +31,7 @@
   aspect-ratio: 1414 / 2000;
   flex: 0 0 auto;
   zoom: var(--poster-zoom);
+  filter: drop-shadow(0 20px 30px rgb(38 13 80 / 32%));
 }
 
 .poster {

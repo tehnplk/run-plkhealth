@@ -16,7 +16,7 @@ const maxZoom = 200;
 const zoomStep = 10;
 
 export function PosterViewport({ children }: { children: ReactNode }) {
-  const [zoom, setZoom] = useState(100);
+  const [zoom, setZoom] = useState(90);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const zoomStyle = {

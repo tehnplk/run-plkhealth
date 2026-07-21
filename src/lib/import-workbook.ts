@@ -40,7 +40,7 @@ export async function parseParticipantWorkbook(arrayBuffer: ArrayBuffer) {
     participantColumns.some((header, index) => actualHeaders[index] !== header)
   ) {
     throw new WorkbookValidationError(
-      `Invalid columns. Expected: ${participantColumns.join(", ")}`,
+      `ไฟล์ Excel ต้องมี ${participantColumns.join(", ")}`,
     );
   }
 
