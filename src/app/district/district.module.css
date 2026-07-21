@@ -1,0 +1,143 @@
+.page {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 54px 18px 28px;
+  background: #f3f4f6;
+  color: #111;
+  font-family: Arial, Tahoma, sans-serif;
+}
+
+.back {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 12px;
+  border: 1px solid #c9cdd3;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 84%);
+  color: #34465e;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.back:hover {
+  border-color: #4f81bd;
+  color: #245f9a;
+}
+
+.report {
+  width: min(897px, 100%);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+}
+
+.tableWrap {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #d9e2ec;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 8px 28px rgb(31 50 73 / 7%);
+}
+
+.tableWrap table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  background: #fff;
+  font-size: 0.84rem;
+  line-height: 1.25;
+}
+
+.tableWrap th,
+.tableWrap td {
+  height: 30px;
+  padding: 5px 14px;
+  border: 0;
+  border-bottom: 1px solid #e7edf3;
+  text-align: left;
+}
+
+.tableWrap th {
+  background: #edf3f8;
+  color: #334b63;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.tableWrap th:last-child,
+.tableWrap td:last-child {
+  width: 120px;
+  text-align: right;
+}
+
+.tableWrap th:first-child,
+.tableWrap td:first-child {
+  width: 72px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.tableWrap tbody tr:not(.totalRow):hover {
+  background: #f8fbfd;
+}
+
+.totalRow td {
+  border-bottom: 0;
+  background: #f4f8fb;
+  color: #20384f;
+  font-weight: 800;
+}
+
+.chartCard {
+  height: clamp(300px, 44svh, 430px);
+  padding: 8px 12px;
+  border: 1px solid #8c8c8c;
+  border-radius: 17px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 8%);
+}
+
+.chartCanvas {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .page {
+    display: block;
+    padding-top: 64px;
+  }
+
+  .report {
+    gap: 18px;
+  }
+
+  .tableWrap {
+    width: 100%;
+  }
+
+  .chartCard {
+    height: min(430px, 72vw);
+    min-height: 310px;
+  }
+}

@@ -12,6 +12,8 @@
 
 # testing
 /coverage
+/.playwright-cli/
+/design-qa.md
 
 # next.js
 /.next/
@@ -19,6 +21,10 @@
 
 # production
 /build
+
+# transient SQLite files
+/data/*.sqlite-wal
+/data/*.sqlite-shm
 
 # misc
 .DS_Store
@@ -39,3 +45,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+DEPLOY.md

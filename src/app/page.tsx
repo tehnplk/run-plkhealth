@@ -1,65 +1,120 @@
 import Image from "next/image";
+import posterImage from "../../resource/poster.png";
+import { loadPosterData } from "@/lib/load-poster-data";
+import { PosterViewport } from "./poster-viewport";
+import styles from "./page.module.css";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+const numberFormatter = new Intl.NumberFormat("th-TH", {
+  maximumFractionDigits: 0,
+});
+
+function formatNumber(value: number | null) {
+  return value === null ? "" : numberFormatter.format(value);
+}
+
+function formatPercent(value: number | null) {
+  return value === null ? "" : value.toFixed(2);
+}
+
+function formatUpdatedAt(value: string) {
+  if (!value) return "ยังไม่มีการอัปโหลดข้อมูล";
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "ยังไม่มีการอัปโหลดข้อมูล";
+
+  const dateText = new Intl.DateTimeFormat("th-TH", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "Asia/Bangkok",
+  }).format(date);
+  const timeText = new Intl.DateTimeFormat("th-TH", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+    timeZone: "Asia/Bangkok",
+  })
+    .format(date)
+    .replace(":", ".");
+
+  return `ข้อมูลอัปเดต วันที่ ${dateText} เวลา ${timeText} น.`;
+}
+
+export default async function Home() {
+  const posterData = await loadPosterData();
+  const mainRows = [...posterData.districts, posterData.otherProvince, posterData.summary];
+  const activityRows = [...posterData.activities, posterData.activitySummary];
+  const progressWidth = Math.min(100, Math.max(0, posterData.completionPercent));
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+    <PosterViewport>
+      <section
+        className={styles.poster}
+        aria-label="สรุปจำนวนผู้สมัคร เดิน วิ่ง ปั่น ป้องกันอัมพาต ครั้งที่ 11 จังหวัดพิษณุโลก"
+      >
         <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
+          className={styles.posterImage}
+          src={posterImage}
+          alt="โปสเตอร์สรุปผู้สมัคร เดิน วิ่ง ปั่น ป้องกันอัมพาต ครั้งที่ 11 จังหวัดพิษณุโลก"
+          fill
           priority
+          sizes="(max-width: 1414px) 100vw, 1414px"
+          quality={100}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+
+        <div
+          id="district-registration"
+          className={styles.districtNumbers}
+          aria-label="ข้อมูลผู้สมัครแยกรายอำเภอ"
+        >
+          {mainRows.map((row) => (
+            <div className={styles.districtRow} key={row.label}>
+              <span className={styles.population}>{formatNumber(row.population)}</span>
+              <span className={styles.target}>{formatNumber(row.target)}</span>
+              <span className={styles.registered}>{formatNumber(row.registered)}</span>
+              <span className={styles.percent}>{formatPercent(row.percent)}</span>
+            </div>
+          ))}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className={styles.posterStatus}>
+          <p className={styles.updateText}>{formatUpdatedAt(posterData.updatedAt)}</p>
+          <div className={styles.progressGroup}>
+            <div
+              className={styles.progressTrack}
+              role="progressbar"
+              aria-label="ความคืบหน้ายอดผู้สมัคร"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={Math.min(100, Math.round(progressWidth))}
+            >
+              <span
+                className={styles.progressFill}
+                style={{ width: `${progressWidth}%` }}
+              />
+            </div>
+            <output className={styles.progressPercent}>
+              {posterData.completionPercent.toFixed(2)}%
+            </output>
+          </div>
         </div>
-      </main>
-    </div>
+
+        <div
+          id="age-groups"
+          className={styles.activityNumbers}
+          aria-label="ข้อมูลผู้สมัครแยกตามประเภทกิจกรรม"
+        >
+          {activityRows.map((row) => (
+            <div className={styles.activityRow} key={row.label}>
+              <span>{row.children === null ? "-" : formatNumber(row.children)}</span>
+              <span>{formatNumber(row.adults)}</span>
+              <span>{formatNumber(row.total)}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+    </PosterViewport>
   );
 }
