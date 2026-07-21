@@ -53,6 +53,12 @@ export function PosterViewport({
 
   return (
     <main className={styles.page}>
+      <div className={styles.backgroundWatermarks} aria-hidden="true">
+        {Array.from({ length: 6 }, (_, index) => (
+          <span key={index}>WALK RUN BIKE 12</span>
+        ))}
+      </div>
+
       <div className={styles.stage}>
         <div className={styles.stageInner}>
           <div className={styles.zoomSurface} style={zoomStyle}>

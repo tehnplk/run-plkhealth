@@ -7,6 +7,55 @@
   background: linear-gradient(135deg, #31105e 0%, #6d39b4 52%, #9a58ca 100%);
 }
 
+.backgroundWatermarks {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.backgroundWatermarks span {
+  position: absolute;
+  color: rgb(255 255 255 / 15%);
+  font-family: var(--font-poster), "Noto Sans Thai", Tahoma, sans-serif;
+  font-size: clamp(1.18rem, 1.65vw, 1.7rem);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  transform: rotate(-23deg);
+  white-space: nowrap;
+}
+
+.backgroundWatermarks span:nth-child(1) {
+  top: 7%;
+  left: 7%;
+}
+
+.backgroundWatermarks span:nth-child(2) {
+  top: 7%;
+  left: 70%;
+}
+
+.backgroundWatermarks span:nth-child(3) {
+  top: 47%;
+  left: 7%;
+}
+
+.backgroundWatermarks span:nth-child(4) {
+  top: 47%;
+  left: 70%;
+}
+
+.backgroundWatermarks span:nth-child(5) {
+  top: 87%;
+  left: 7%;
+}
+
+.backgroundWatermarks span:nth-child(6) {
+  top: 87%;
+  left: 70%;
+}
+
 .stage {
   position: relative;
   z-index: 1;
@@ -57,7 +106,7 @@
 
 .infoCards {
   width: min(23vw, 310px);
-  min-width: 220px;
+  min-width: 260px;
   display: grid;
   gap: 14px;
   flex: 0 0 auto;
@@ -80,6 +129,8 @@
 }
 
 .cardIcon {
+  position: relative;
+  z-index: 1;
   width: clamp(30px, 3vw, 42px);
   height: clamp(30px, 3vw, 42px);
   flex: 0 0 auto;
@@ -92,19 +143,11 @@
 }
 
 .cardContent {
+  position: relative;
+  z-index: 1;
   min-width: 0;
   display: grid;
   gap: 3px;
-}
-
-.infoCard::after {
-  position: absolute;
-  inset: auto -28px -45px auto;
-  width: 115px;
-  height: 115px;
-  border: 1px solid rgb(255 255 255 / 12%);
-  border-radius: 50%;
-  content: "";
 }
 
 .cardEyebrow {
@@ -190,6 +233,25 @@
 .participantCard {
   background: linear-gradient(135deg, #087b69, #0fa674 56%, #38b56a);
   box-shadow: 0 16px 34px rgb(5 89 69 / 27%);
+}
+
+.checkCard {
+  background: linear-gradient(135deg, #167aa2, #278bb5 55%, #416fbd);
+  box-shadow: 0 16px 34px rgb(20 75 137 / 27%);
+  text-decoration: none;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.checkCard:hover,
+.checkCard:focus-visible {
+  box-shadow: 0 20px 42px rgb(12 49 117 / 38%);
+  outline: none;
+  transform: translateY(-3px);
+}
+
+.checkCard strong {
+  font-size: clamp(1rem, 1.35vw, 1.4rem);
+  white-space: nowrap;
 }
 
 .countdownCard {
@@ -540,6 +602,10 @@
   }
 
   .registrationCard {
+    grid-column: 1 / -1;
+  }
+
+  .checkCard {
     grid-column: 1 / -1;
   }
 

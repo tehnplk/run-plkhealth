@@ -12,12 +12,18 @@ function daysRemaining() {
   return Math.max(0, Math.ceil((deadline.getTime() - Date.now()) / 86_400_000));
 }
 
-function CardIcon({ type }: { type: "register" | "person" | "calendar" }) {
+function CardIcon({ type }: { type: "register" | "check" | "person" | "calendar" }) {
   const paths = {
     register: (
       <>
         <path d="m5 3 14 8-6.5 2.2L10.3 20 5 3Z" />
         <path d="m13 14 4 5" />
+      </>
+    ),
+    check: (
+      <>
+        <circle cx="10.5" cy="10.5" r="5.5" />
+        <path d="m15 15 4.5 4.5M8 10.5l1.6 1.6 3.2-3.3" />
       </>
     ),
     person: (
@@ -59,8 +65,19 @@ export default async function Home() {
           >
             <CardIcon type="register" />
             <span className={styles.cardContent}>
-              <span className={styles.cardEyebrow}>Walk Run Bike 12</span>
-              <strong>คลิกลงทะเบียน</strong>
+              <strong>สมัครกิจกรรม</strong>
+            </span>
+          </a>
+
+          <a
+            className={`${styles.infoCard} ${styles.checkCard}`}
+            href="https://wrb12.thai.run/check"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <CardIcon type="check" />
+            <span className={styles.cardContent}>
+              <strong>ตรวจสอบการสมัคร</strong>
             </span>
           </a>
 
