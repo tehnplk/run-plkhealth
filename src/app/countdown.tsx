@@ -23,6 +23,22 @@ function getRemaining(): CountdownValue {
   };
 }
 
+function RollingDigits({ value }: { value: number }) {
+  return (
+    <span className={styles.countdownNumber}>
+      {value
+        .toString()
+        .padStart(2, "0")
+        .split("")
+        .map((digit, index) => (
+          <span className={styles.countdownDigit} key={`${index}-${digit}`}>
+            {digit}
+          </span>
+        ))}
+    </span>
+  );
+}
+
 export function Countdown({ initialDays }: { initialDays: number }) {
   const [remaining, setRemaining] = useState<CountdownValue>({
     days: initialDays,
@@ -46,18 +62,18 @@ export function Countdown({ initialDays }: { initialDays: number }) {
         <span className={styles.cardUnit}>วัน</span>
       </span>
       <span className={styles.countdownLine} aria-live="polite">
-        <span className={styles.countdownNumber} key={`hour-${remaining.hours}`}>
-          {remaining.hours.toString().padStart(2, "0")}
+        <span className={styles.countdownPart}>
+          <RollingDigits value={remaining.hours} />
+          <span>ชั่วโมง</span>
         </span>
-        <span>ชั่วโมง</span>
-        <span className={styles.countdownNumber} key={`minute-${remaining.minutes}`}>
-          {remaining.minutes.toString().padStart(2, "0")}
+        <span className={styles.countdownPart}>
+          <RollingDigits value={remaining.minutes} />
+          <span>นาที</span>
         </span>
-        <span>นาที</span>
-        <span className={styles.countdownNumber} key={`second-${remaining.seconds}`}>
-          {remaining.seconds.toString().padStart(2, "0")}
+        <span className={styles.countdownPart}>
+          <RollingDigits value={remaining.seconds} />
+          <span>วินาที</span>
         </span>
-        <span>วินาที</span>
       </span>
     </>
   );

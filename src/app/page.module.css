@@ -140,20 +140,31 @@
 .countdownLine {
   display: flex;
   align-items: baseline;
-  gap: 4px;
+  gap: 8px;
   color: rgb(255 255 255 / 72%);
-  font-size: 0.76rem;
+  font-size: 15px;
   font-weight: 700;
   line-height: 1;
   white-space: nowrap;
 }
 
+.countdownPart {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  white-space: nowrap;
+}
+
 .countdownNumber {
-  display: inline-block;
+  display: inline-flex;
   min-width: 1.55em;
   color: #fff;
   font-variant-numeric: tabular-nums;
   text-align: right;
+}
+
+.countdownDigit {
+  display: inline-block;
   animation: countdown-slide-down 280ms cubic-bezier(0.22, 0.8, 0.3, 1);
 }
 
@@ -532,6 +543,14 @@
     grid-column: 1 / -1;
   }
 
+  .participantCard {
+    grid-column: 1 / -1;
+  }
+
+  .countdownCard {
+    grid-column: 1 / -1;
+  }
+
   .infoCard {
     min-height: 102px;
     gap: 11px;
@@ -557,8 +576,15 @@
   }
 
   .countdownLine {
-    gap: 3px;
-    font-size: 0.68rem;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 5px;
+    font-size: calc(0.8rem + 2px);
+    white-space: nowrap;
+  }
+
+  .countdownPart {
+    gap: 2px;
   }
 
   .settingsButton {
