@@ -74,16 +74,18 @@
 .exportLink {
   flex: none;
   padding: 7px 11px;
+  border: 1px solid #c9d8e5;
   border-radius: 8px;
-  background: #245f9a;
-  color: #fff;
+  background: #edf3f8;
+  color: #334b63;
   font-size: 0.78rem;
   font-weight: 800;
   text-decoration: none;
 }
 
 .exportLink:hover {
-  background: #174a7b;
+  border-color: #9eb6cb;
+  background: #e2edf5;
 }
 
 .tableWrap th,

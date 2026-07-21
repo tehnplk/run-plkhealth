@@ -77,8 +77,11 @@ async function exportDistrict() {
   return { workbook, filename: "ยอดสมัครรายอำเภอ.xlsx" };
 }
 
-async function exportClub() {
-  const { activities, groups } = loadClubData();
+async function exportClub(district?: string) {
+  const { activities, groups: allGroups } = loadClubData();
+  const groups = district
+    ? allGroups.filter((group) => group.district === district)
+    : allGroups;
   const workbook = new Workbook();
   const worksheet = styleSheet(workbook, "ข้อมูลแยกรายชมรม", [
     "ลำดับ",
@@ -112,14 +115,15 @@ async function exportClub() {
 }
 
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ report: string }> },
 ) {
   const { report } = await params;
+  const district = new URL(request.url).searchParams.get("district")?.trim();
   const exporters: Record<Report, () => Promise<{ workbook: Workbook; filename: string }>> = {
     age: exportAge,
     amp: exportDistrict,
-    club: exportClub,
+    club: () => exportClub(district),
   };
   const exporter = exporters[report as Report];
 

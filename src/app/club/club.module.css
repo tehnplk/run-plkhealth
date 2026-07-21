@@ -67,19 +67,46 @@
   font-weight: 700;
 }
 
+.tableTools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.districtFilter {
+  height: 32px;
+  max-width: 180px;
+  padding: 0 28px 0 10px;
+  border: 1px solid #c9d8e5;
+  border-radius: 8px;
+  background: #edf3f8;
+  color: #334b63;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.districtFilter:focus-visible {
+  border-color: #779ab8;
+  outline: 2px solid rgb(119 154 184 / 25%);
+  outline-offset: 1px;
+}
+
 .exportLink {
   flex: none;
   padding: 7px 11px;
+  border: 1px solid #c9d8e5;
   border-radius: 8px;
-  background: #245f9a;
-  color: #fff;
+  background: #edf3f8;
+  color: #334b63;
   font-size: 0.78rem;
   font-weight: 800;
   text-decoration: none;
 }
 
 .exportLink:hover {
-  background: #174a7b;
+  border-color: #9eb6cb;
+  background: #e2edf5;
 }
 
 .tableScroll {
@@ -189,6 +216,16 @@
   .page {
     display: block;
     padding-top: 64px;
+  }
+
+  .tableHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .tableTools {
+    width: 100%;
+    justify-content: space-between;
   }
 
 }
