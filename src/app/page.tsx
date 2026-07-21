@@ -65,7 +65,8 @@ export default async function Home() {
           >
             <CardIcon type="register" />
             <span className={styles.cardContent}>
-              <strong>สมัครกิจกรรม</strong>
+              <strong>สมัครเข้าร่วมกิจกรรม</strong>
+              <span className={styles.cardLinkHint}>คลิกที่นี่</span>
             </span>
           </a>
 
@@ -84,7 +85,7 @@ export default async function Home() {
           <section className={`${styles.infoCard} ${styles.participantCard}`} aria-label="Registered participants">
             <CardIcon type="person" />
             <span className={styles.cardContent}>
-              <span className={styles.cardEyebrow}>เข้าร่วมแล้ว</span>
+              <span className={styles.cardEyebrow}>ยอดผู้สมัคร</span>
               <span className={styles.cardValue}>
                 <strong className={styles.cardNumber}>
                   {posterData.summary.registered.toLocaleString("th-TH")}
@@ -96,10 +97,10 @@ export default async function Home() {
 
           <section className={`${styles.infoCard} ${styles.countdownCard}`} aria-label="Time remaining">
             <CardIcon type="calendar" />
-            <span className={styles.cardContent}>
-              <span className={styles.cardEyebrow}>
-                <strong className={styles.cardCloseWord}>ปิด</strong>รับสมัครใน
-              </span>
+              <span className={styles.cardContent}>
+                <span className={styles.cardEyebrow}>
+                ปิดรับสมัครใน
+                </span>
               <Countdown initialDays={daysRemaining()} />
             </span>
           </section>

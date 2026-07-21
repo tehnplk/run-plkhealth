@@ -93,6 +93,7 @@
   aspect-ratio: 1414 / 2000;
   flex: 0 0 auto;
   overflow: hidden;
+  border-radius: 15px;
   isolation: isolate;
   background: #1d315f;
 }
@@ -105,6 +106,11 @@
 }
 
 .infoCards {
+  --card-navy: #012c74;
+  --card-blue: #012c74;
+  --card-coral: #ec6258;
+  --card-coral-deep: #cb405c;
+  --card-shadow: rgb(14 26 79 / 38%);
   width: min(23vw, 310px);
   min-width: 260px;
   display: grid;
@@ -120,10 +126,10 @@
   gap: 15px;
   padding: 21px 24px;
   overflow: hidden;
-  border: 1px solid rgb(255 255 255 / 20%);
+  border: 1px solid rgb(255 255 255 / 58%);
   border-radius: 20px;
-  background: linear-gradient(135deg, rgb(42 15 88 / 90%), rgb(91 45 164 / 84%));
-  box-shadow: 0 16px 34px rgb(30 8 64 / 24%);
+  background: linear-gradient(135deg, var(--card-navy), var(--card-blue));
+  box-shadow: 0 16px 34px var(--card-shadow);
   color: #fff;
   backdrop-filter: blur(12px);
 }
@@ -157,15 +163,6 @@
   letter-spacing: 0.02em;
 }
 
-.cardCloseWord {
-  display: inline-block;
-  margin-right: 0.14em;
-  color: #fff;
-  font-size: 1.28em !important;
-  font-weight: 900 !important;
-  line-height: 0.9;
-}
-
 .infoCard strong {
   font-size: clamp(1.18rem, 1.65vw, 1.7rem);
   font-weight: 900;
@@ -181,19 +178,6 @@
   display: flex;
   align-items: baseline;
   gap: 7px;
-}
-
-.countdownDayBadge {
-  width: fit-content;
-  padding: 3px 11px 6px;
-  border: 1px solid rgb(255 255 255 / 24%);
-  border-radius: 12px;
-  background: linear-gradient(135deg, #ef4f54, #c92e4b);
-  box-shadow: 0 7px 16px rgb(104 22 64 / 24%);
-}
-
-.countdownDayBadge .cardUnit {
-  color: rgb(255 255 255 / 88%);
 }
 
 .cardUnit {
@@ -248,27 +232,46 @@
 }
 
 .registrationCard {
-  background: linear-gradient(135deg, #ff8a45, #ed5a50 54%, #c42e62);
-  box-shadow: 0 16px 34px rgb(141 29 70 / 28%);
+  background: #012c74;
+  box-shadow: 0 16px 34px var(--card-shadow);
   text-decoration: none;
   transition: transform 180ms ease, box-shadow 180ms ease;
 }
 
+.registrationCard strong {
+  font-size: clamp(0.96rem, 1.15vw, 1.25rem);
+  white-space: nowrap;
+}
+
+.registrationCard .cardContent {
+  align-items: center;
+  text-align: center;
+}
+
+.cardLinkHint {
+  color: rgb(255 255 255 / 72%);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.registrationCard .cardIcon {
+  color: rgb(255 255 255 / 82%);
+}
+
 .participantCard {
-  background: linear-gradient(135deg, #087b69, #0fa674 56%, #38b56a);
-  box-shadow: 0 16px 34px rgb(5 89 69 / 27%);
+  background: #012c74;
 }
 
 .checkCard {
-  background: linear-gradient(135deg, #167aa2, #278bb5 55%, #416fbd);
-  box-shadow: 0 16px 34px rgb(20 75 137 / 27%);
+  background: #012c74;
+  box-shadow: 0 16px 34px var(--card-shadow);
   text-decoration: none;
   transition: transform 180ms ease, box-shadow 180ms ease;
 }
 
 .checkCard:hover,
 .checkCard:focus-visible {
-  box-shadow: 0 20px 42px rgb(12 49 117 / 38%);
+  box-shadow: 0 20px 42px rgb(13 34 89 / 42%);
   outline: none;
   transform: translateY(-3px);
 }
@@ -279,13 +282,14 @@
 }
 
 .countdownCard {
-  background: linear-gradient(135deg, #244a9a, #465ab6 56%, #7755b8);
-  box-shadow: 0 16px 34px rgb(35 45 133 / 28%);
+  border-color: rgb(255 255 255 / 58%);
+  background: #012c74;
+  box-shadow: 0 16px 34px var(--card-shadow);
 }
 
 .registrationCard:hover,
 .registrationCard:focus-visible {
-  box-shadow: 0 20px 42px rgb(58 9 47 / 38%);
+  box-shadow: 0 20px 42px rgb(13 34 89 / 42%);
   outline: none;
   transform: translateY(-3px);
 }

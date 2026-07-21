@@ -1,4 +1,5 @@
 .page {
+  position: relative;
   min-height: 100svh;
   padding: clamp(20px, 4vw, 56px);
   background: #f3f6f9;
@@ -8,6 +9,11 @@
 .shell {
   width: min(1240px, 100%);
   margin: 0 auto;
+}
+
+.loginShell {
+  width: min(420px, 100%);
+  margin: clamp(40px, 12vh, 120px) auto 0;
 }
 
 .header {
@@ -51,11 +57,42 @@
 }
 
 .uploadCard,
-.historyCard {
+.historyCard,
+.loginCard {
   border: 1px solid #dce4ec;
   border-radius: 20px;
   background: #fff;
   box-shadow: 0 12px 38px rgb(32 52 72 / 7%);
+}
+
+.loginCard {
+  display: grid;
+  gap: 20px;
+  padding: 26px;
+}
+
+.passwordField {
+  display: grid;
+  gap: 8px;
+  color: #40576c;
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.passwordField input {
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid #c9d5df;
+  border-radius: 11px;
+  background: #fff;
+  color: #172433;
+  font: inherit;
+  outline: none;
+}
+
+.passwordField input:focus {
+  border-color: #2f78b7;
+  box-shadow: 0 0 0 3px rgb(47 120 183 / 14%);
 }
 
 .uploadCard {

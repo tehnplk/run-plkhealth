@@ -83,13 +83,7 @@ export function PosterViewport({
         {menuOpen ? (
           <nav className={styles.settingsMenu} aria-label="เมนูโปสเตอร์">
             <Link href="/amp" onClick={() => setMenuOpen(false)}>
-              ยอดสมัครรายอำเภอ
-            </Link>
-            <Link href="/age" onClick={() => setMenuOpen(false)}>
-              ข้อมูลตามกลุ่มอายุ
-            </Link>
-            <Link href="/club" onClick={() => setMenuOpen(false)}>
-              ข้อมูลแยกรายชมรม
+              สถิติการสมัคร
             </Link>
             <Link href="/upload" onClick={() => setMenuOpen(false)}>
               Upload

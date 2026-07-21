@@ -1,7 +1,6 @@
-import Link from "next/link";
-import { ArrowLeftIcon } from "@phosphor-icons/react/dist/ssr";
 import { loadAgeGroupData } from "@/lib/load-age-data";
 import { ExcelExportLink } from "@/components/excel-export-link";
+import { BackHomeLink, StatisticsTabs } from "@/components/report-navigation";
 import { AgeBarChart } from "./age-bar-chart";
 import styles from "./age.module.css";
 
@@ -21,15 +20,13 @@ export default function AgePage() {
 
   return (
     <main className={styles.page}>
-      <Link className={styles.back} href="/" aria-label="กลับไปหน้าโปสเตอร์">
-        <ArrowLeftIcon size={18} weight="bold" aria-hidden="true" />
-        <span>โปสเตอร์</span>
-      </Link>
+      <BackHomeLink />
 
       <section className={styles.report} aria-labelledby="age-title">
         <h1 id="age-title" className={styles.srOnly}>
           ข้อมูลตามกลุ่มอายุ
         </h1>
+        <StatisticsTabs current="age" />
 
         <div className={styles.tableWrap}>
           <div className={styles.tableHeader}>

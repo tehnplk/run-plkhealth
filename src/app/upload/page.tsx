@@ -1,4 +1,6 @@
-import Link from "next/link";
+import { redirect } from "next/navigation";
+import { auth } from "@/auth";
+import { BackHomeLink } from "@/components/report-navigation";
 import { getUploadHistory } from "@/lib/database";
 import { UploadForm } from "./upload-form";
 import styles from "./upload.module.css";
@@ -13,17 +15,17 @@ function formatUploadedAt(value: string) {
   }).format(new Date(value));
 }
 
-export default function UploadPage() {
+export default async function UploadPage() {
+  if (!(await auth())) redirect("/upload/login");
+
   const uploadHistory = getUploadHistory();
 
   return (
     <main className={styles.page}>
+      <BackHomeLink />
       <section className={styles.shell}>
         <header className={styles.header}>
           <h1>อัปโหลดข้อมูล</h1>
-          <Link className={styles.posterLink} href="/">
-            กลับหน้าโปสเตอร์
-          </Link>
         </header>
 
         <div className={styles.grid}>
