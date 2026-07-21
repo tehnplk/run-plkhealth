@@ -20,7 +20,14 @@ type QueryRow = {
   registered: number;
 };
 
-const ageGroupOrder = ["<18", "19-29", "30-39", "40-49", "50-59", "60+"];
+const ageGroupOrder = [
+  "ต่ำกว่า 18 ปี",
+  "19-29 ปี",
+  "30-39 ปี",
+  "40-49 ปี",
+  "50-59 ปี",
+  "60 ปีขึ้นไป",
+];
 export function loadAgeGroupData(): AgeGroupData {
   const database = openDatabase();
 
@@ -29,12 +36,12 @@ export function loadAgeGroupData(): AgeGroupData {
       .prepare(`
         SELECT
           CASE
-            WHEN age <= 18 THEN '<18'
-            WHEN age BETWEEN 19 AND 29 THEN '19-29'
-            WHEN age BETWEEN 30 AND 39 THEN '30-39'
-            WHEN age BETWEEN 40 AND 49 THEN '40-49'
-            WHEN age BETWEEN 50 AND 59 THEN '50-59'
-            ELSE '60+'
+            WHEN age <= 18 THEN 'ต่ำกว่า 18 ปี'
+            WHEN age BETWEEN 19 AND 29 THEN '19-29 ปี'
+            WHEN age BETWEEN 30 AND 39 THEN '30-39 ปี'
+            WHEN age BETWEEN 40 AND 49 THEN '40-49 ปี'
+            WHEN age BETWEEN 50 AND 59 THEN '50-59 ปี'
+            ELSE '60 ปีขึ้นไป'
           END AS ageGroup,
           TRIM(distance) AS distance,
           COUNT(*) AS registered

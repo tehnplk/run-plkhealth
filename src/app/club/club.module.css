@@ -96,14 +96,17 @@
 }
 
 .tableScroll th {
-  position: sticky;
-  top: 0;
-  z-index: 1;
   background: #edf3f8;
   color: #334b63;
   font-size: 0.76rem;
   font-weight: 800;
   letter-spacing: 0.04em;
+}
+
+.tableScroll thead {
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 
 .tableScroll th[rowspan] {
@@ -112,10 +115,6 @@
 
 .tableScroll thead tr:first-child th[colspan] {
   text-align: center;
-}
-
-.tableScroll thead tr:nth-child(2) th {
-  top: 40px;
 }
 
 .tableScroll thead tr:first-child th:first-child,

@@ -74,9 +74,17 @@
   letter-spacing: 0.03em;
 }
 
-.tableWrap th:first-child,
+.tableWrap thead tr:first-child th:first-child,
 .tableWrap td:first-child {
   width: 72px;
+}
+
+.tableWrap th[rowspan] {
+  vertical-align: middle;
+}
+
+.tableWrap thead tr:first-child th[colspan] {
+  text-align: center;
 }
 
 .totalRow td {

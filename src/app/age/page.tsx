@@ -34,11 +34,14 @@ export default function AgePage() {
           <table>
             <thead>
               <tr>
-                <th>กลุ่มอายุ</th>
+                <th rowSpan={2}>กลุ่มอายุ</th>
+                <th colSpan={activities.length}>ประเภทกิจกรรม</th>
+                <th rowSpan={2}>รวมยอดผู้สมัคร</th>
+              </tr>
+              <tr>
                 {activities.map((activity) => (
                   <th key={activity}>{activity}</th>
                 ))}
-                <th>รวม</th>
               </tr>
             </thead>
             <tbody>

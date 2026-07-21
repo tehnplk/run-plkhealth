@@ -26,13 +26,22 @@ export function loadClubData(): ClubData {
   try {
     const result = database
       .prepare(`
+        WITH normalized_participants AS (
+          SELECT
+            CASE
+              WHEN TRIM(club) IN ('', '-', 'ไม่มี') THEN 'ไม่มีชมรม'
+              ELSE TRIM(club)
+            END AS club,
+            TRIM(distance) AS distance
+          FROM participants
+        )
         SELECT
-          TRIM(club) AS club,
-          TRIM(distance) AS distance,
+          club,
+          distance,
           COUNT(*) AS registered
-        FROM participants
-        WHERE TRIM(club) <> '' AND TRIM(distance) <> ''
-        GROUP BY TRIM(club), TRIM(distance)
+        FROM normalized_participants
+        WHERE distance <> ''
+        GROUP BY club, distance
       `)
       .all() as QueryRow[];
     const activities = [...new Set(result.map((row) => row.distance))].sort(
