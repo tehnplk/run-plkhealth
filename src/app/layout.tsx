@@ -11,8 +11,8 @@ const posterFont = Noto_Sans_Thai({
 });
 
 export const metadata: Metadata = {
-  title: "เดิน วิ่ง ปั่น ป้องกันอัมพาต ครั้งที่ 11 | จังหวัดพิษณุโลก",
-  description: "สรุปจำนวนผู้สมัคร เดิน วิ่ง ปั่น ป้องกันอัมพาต ครั้งที่ 11 จังหวัดพิษณุโลก",
+  title: "Walk Run Bike 12th",
+  description: "Walk Run Bike 12th",
 };
 
 export default function RootLayout({

@@ -41,6 +41,17 @@ export type UploadLogEntry = {
 
 const dataDirectory = path.join(process.cwd(), "data");
 const databasePath = path.join(dataDirectory, "poster.sqlite");
+const targetBaseSeeds = [
+  ["เมืองพิษณุโลก", 1200],
+  ["นครไทย", 500],
+  ["ชาติตระการ", 400],
+  ["บางระกำ", 500],
+  ["บางกระทุ่ม", 500],
+  ["พรหมพิราม", 500],
+  ["วัดโบสถ์", 400],
+  ["วังทอง", 500],
+  ["เนินมะปราง", 400],
+] as const;
 
 export function openDatabase() {
   mkdirSync(dataDirectory, { recursive: true });
@@ -68,6 +79,11 @@ export function openDatabase() {
       ON participants (residence);
     CREATE INDEX IF NOT EXISTS idx_participants_distance_age
       ON participants (distance, age);
+
+    CREATE TABLE IF NOT EXISTS target_base (
+      amp TEXT PRIMARY KEY,
+      target INTEGER NOT NULL CHECK (target >= 0)
+    ) STRICT;
 
     CREATE TABLE IF NOT EXISTS import_metadata (
       id INTEGER PRIMARY KEY CHECK (id = 1),
@@ -99,6 +115,14 @@ export function openDatabase() {
     FROM import_metadata
     WHERE NOT EXISTS (SELECT 1 FROM upload_log);
   `);
+
+  const insertTarget = database.prepare(
+    "INSERT OR IGNORE INTO target_base (amp, target) VALUES (?, ?)",
+  );
+  for (const [amp, target] of targetBaseSeeds) {
+    insertTarget.run(amp, target);
+  }
+  database.prepare("DELETE FROM target_base WHERE amp = ?").run("ส่วนราชการ");
 
   return database;
 }

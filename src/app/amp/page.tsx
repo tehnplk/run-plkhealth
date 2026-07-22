@@ -19,6 +19,7 @@ const chartColors = [
   "#b07aa1",
   "#ff9da7",
   "#9c755f",
+  "#bab0ab",
 ];
 
 export default async function AmpPage() {
@@ -39,7 +40,10 @@ export default async function AmpPage() {
       ]),
     ),
     registered: districtRows.reduce((sum, row) => sum + row.registered, 0),
+    target: districtRows.reduce((sum, row) => sum + row.target, 0),
   };
+  const summaryPercentage =
+    summary.target === 0 ? 0 : (summary.registered / summary.target) * 100;
 
   return (
     <main className={styles.page}>
@@ -63,6 +67,8 @@ export default async function AmpPage() {
                 <th rowSpan={2}>อำเภอ</th>
                 <th colSpan={activities.length}>ประเภทกิจกรรม</th>
                 <th rowSpan={2}>รวมยอดผู้สมัคร</th>
+                <th rowSpan={2}>เป้าหมายที่ต้องการ</th>
+                <th rowSpan={2}>คิดเป็นร้อยละ</th>
               </tr>
               <tr>
                 {activities.map((activity) => (
@@ -80,7 +86,18 @@ export default async function AmpPage() {
                       {(row.activityCounts[activity] ?? 0).toLocaleString("th-TH")}
                     </td>
                   ))}
-                  <td>{row.registered.toLocaleString("th-TH")}</td>
+                  <td>
+                    <strong>{row.registered.toLocaleString("th-TH")}</strong>
+                  </td>
+                  <td>{row.target.toLocaleString("th-TH")}</td>
+                  <td>
+                    <strong>
+                      {row.percentage.toLocaleString("th-TH", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </strong>
+                  </td>
                 </tr>
               ))}
               <tr className={styles.totalRow}>
@@ -92,6 +109,15 @@ export default async function AmpPage() {
                   </td>
                 ))}
                 <td>{summary.registered.toLocaleString("th-TH")}</td>
+                <td>{summary.target.toLocaleString("th-TH")}</td>
+                <td>
+                  <strong>
+                    {summaryPercentage.toLocaleString("th-TH", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </strong>
+                </td>
               </tr>
             </tbody>
           </table>

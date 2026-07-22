@@ -7,6 +7,8 @@ export type DistrictBreakdownRow = {
   label: string;
   activityCounts: Record<string, number>;
   registered: number;
+  target: number;
+  percentage: number;
 };
 
 export type DistrictBreakdownData = {
@@ -20,16 +22,21 @@ type QueryRow = {
   registered: number;
 };
 
+type TargetRow = {
+  amp: string;
+  target: number;
+};
+
 const districtOrder = [
   "เมืองพิษณุโลก",
-  "เนินมะปราง",
-  "วังทอง",
-  "วัดโบสถ์",
+  "นครไทย",
   "ชาติตระการ",
-  "พรหมพิราม",
   "บางระกำ",
   "บางกระทุ่ม",
-  "นครไทย",
+  "พรหมพิราม",
+  "วัดโบสถ์",
+  "วังทอง",
+  "เนินมะปราง",
 ];
 
 export function loadDistrictData(): DistrictBreakdownData {
@@ -47,10 +54,16 @@ export function loadDistrictData(): DistrictBreakdownData {
         GROUP BY TRIM(residence), TRIM(distance)
       `)
       .all() as QueryRow[];
+    const targetRows = database
+      .prepare("SELECT amp, target FROM target_base")
+      .all() as TargetRow[];
     const activities = [...new Set(result.map((row) => row.distance))].sort(
       compareActivities,
     );
     const countsByDistrict = new Map<string, Map<string, number>>();
+    const targetsByDistrict = new Map(
+      targetRows.map((row) => [row.amp, Number(row.target)]),
+    );
 
     for (const row of result) {
       const counts = countsByDistrict.get(row.residence) ?? new Map<string, number>();
@@ -63,14 +76,18 @@ export function loadDistrictData(): DistrictBreakdownData {
       const activityCounts = Object.fromEntries(
         activities.map((activity) => [activity, counts.get(activity) ?? 0]),
       );
+      const registered = Object.values(activityCounts).reduce(
+        (sum, count) => sum + count,
+        0,
+      );
+      const target = targetsByDistrict.get(label) ?? 0;
 
       return {
         label,
         activityCounts,
-        registered: Object.values(activityCounts).reduce(
-          (sum, count) => sum + count,
-          0,
-        ),
+        registered,
+        target,
+        percentage: target === 0 ? 0 : (registered / target) * 100,
       };
     });
 
