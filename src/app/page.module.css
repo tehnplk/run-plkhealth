@@ -16,10 +16,31 @@
   position: absolute;
   inset: 0;
   z-index: -3;
+  overflow: hidden;
   background-image: url("/event-walk-run-bike.png");
   background-position: center 48%;
   background-size: cover;
   transform: scale(1.02);
+}
+
+.backgroundPhoto::after {
+  position: absolute;
+  top: -35%;
+  left: -45%;
+  width: 28%;
+  height: 170%;
+  background: linear-gradient(
+    110deg,
+    transparent 0%,
+    rgb(255 255 255 / 4%) 38%,
+    rgb(255 255 255 / 20%) 50%,
+    rgb(255 255 255 / 4%) 62%,
+    transparent 100%
+  );
+  content: "";
+  pointer-events: none;
+  transform: skewX(-18deg);
+  animation: light-sweep 8s ease-in-out infinite;
 }
 
 .page::before {
@@ -213,6 +234,7 @@
 
 .registrationCard,
 .checkCard {
+  width: min(100%, 400px);
   transition:
     border-color 180ms ease,
     box-shadow 180ms ease,
@@ -265,19 +287,6 @@
   font-size: clamp(1rem, 1.2vw, 1.2rem);
   font-weight: 900;
   line-height: 1.3;
-}
-
-.cardArrow {
-  width: 34px;
-  height: 34px;
-  display: grid;
-  place-items: center;
-  margin-left: auto;
-  border: 1px solid rgb(255 255 255 / 22%);
-  border-radius: 50%;
-  background: rgb(255 255 255 / 9%);
-  font-size: 1rem;
-  font-weight: 900;
 }
 
 .participantSummary {
@@ -603,6 +612,16 @@
   }
 }
 
+@keyframes light-sweep {
+  from {
+    left: -50%;
+  }
+
+  to {
+    left: 120%;
+  }
+}
+
 @keyframes countdown-slide-down {
   from {
     opacity: 0;
@@ -757,6 +776,7 @@
   .posterTrigger,
   .posterCountdown,
   .countdownDigit,
+  .backgroundPhoto::after,
   .lightbox,
   .lightboxPoster {
     animation: none;

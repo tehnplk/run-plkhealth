@@ -99,7 +99,6 @@ export default async function Home() {
                 <span className={styles.cardEyebrow}>พร้อมแล้วไปด้วยกัน</span>
                 <strong>สมัครเข้าร่วมกิจกรรม</strong>
               </span>
-              <span className={styles.cardArrow} aria-hidden="true">↗</span>
             </a>
 
             <a
@@ -113,7 +112,6 @@ export default async function Home() {
                 <span className={styles.cardEyebrow}>ลงทะเบียนแล้ว?</span>
                 <strong>ตรวจสอบการสมัคร</strong>
               </span>
-              <span className={styles.cardArrow} aria-hidden="true">↗</span>
             </a>
           </div>
         </aside>
