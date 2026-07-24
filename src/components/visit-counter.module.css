@@ -1,33 +1,40 @@
 .counter {
   position: fixed;
   z-index: 20;
+  top: max(14px, env(safe-area-inset-top));
   left: max(14px, env(safe-area-inset-left));
-  bottom: max(14px, env(safe-area-inset-bottom));
+  bottom: auto;
   display: inline-flex;
   align-items: baseline;
-  gap: 5px;
-  padding: 8px 11px;
+  gap: 3px;
+  padding: 5px 8px;
   border: 1px solid rgb(180 201 218 / 70%);
   border-radius: 999px;
   background: rgb(237 243 248 / 90%);
   color: #526a80;
   box-shadow: 0 4px 16px rgb(31 50 73 / 10%);
   font-family: Arial, Tahoma, sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.62rem;
   font-weight: 700;
   backdrop-filter: blur(10px);
 }
 
 .counter strong {
   color: #244c6f;
-  font-size: 0.86rem;
+  font-size: 0.74rem;
   font-variant-numeric: tabular-nums;
 }
 
-@media (max-width: 560px) {
+@media (max-width: 760px) {
   .counter {
-    left: max(10px, env(safe-area-inset-left));
-    bottom: max(10px, env(safe-area-inset-bottom));
-    padding: 7px 9px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    top: auto;
+    left: auto;
+    bottom: auto;
+    width: max-content;
+    margin: 0 auto max(18px, env(safe-area-inset-bottom));
+    transform: none;
   }
 }

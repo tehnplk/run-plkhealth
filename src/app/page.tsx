@@ -1,5 +1,6 @@
 import Image from "next/image";
 import posterImage from "../../resource/poster2.png";
+import { VisitCounter } from "@/components/visit-counter";
 import { loadPosterData } from "@/lib/load-poster-data";
 import { Countdown } from "./countdown";
 import { PosterViewport } from "./poster-viewport";
@@ -118,13 +119,16 @@ export default async function Home() {
         </aside>
       }
       posterFooter={
-        <section className={styles.posterCountdown} aria-label="Time remaining">
-          <CardIcon type="calendar" />
-          <span className={styles.cardContent}>
-            <span className={styles.cardEyebrow}>ปิดรับสมัครใน</span>
-            <Countdown initialDays={daysRemaining()} />
-          </span>
-        </section>
+        <>
+          <section className={styles.posterCountdown} aria-label="Time remaining">
+            <CardIcon type="calendar" />
+            <span className={styles.cardContent}>
+              <span className={styles.cardEyebrow}>เหลือเวลา</span>
+              <Countdown initialDays={daysRemaining()} />
+            </span>
+          </section>
+          <VisitCounter />
+        </>
       }
     >
       <section
