@@ -1,142 +1,236 @@
 .page {
+  --poster-navy: #07377f;
+  --poster-blue: #2c8fd5;
+  --poster-red: #dc1722;
+  --poster-orange: #f15a2a;
+  --poster-gold: #ffd536;
   position: relative;
-  width: 100vw;
-  height: 100svh;
+  width: 100%;
+  min-height: 100svh;
   overflow: hidden;
   isolation: isolate;
-  background: linear-gradient(135deg, #31105e 0%, #6d39b4 52%, #9a58ca 100%);
+  background: #170632;
 }
 
-.backgroundWatermarks {
+.backgroundPhoto {
   position: absolute;
   inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
+  z-index: -3;
+  background-image: url("/event-walk-run-bike.png");
+  background-position: center 48%;
+  background-size: cover;
+  transform: scale(1.02);
 }
 
-.backgroundWatermarks span {
+.page::before {
   position: absolute;
-  color: rgb(255 255 255 / 15%);
-  font-family: var(--font-poster), "Noto Sans Thai", Tahoma, sans-serif;
-  font-size: clamp(1.18rem, 1.65vw, 1.7rem);
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  transform: rotate(-23deg);
-  white-space: nowrap;
+  inset: 0;
+  z-index: -2;
+  content: "";
+  background:
+    radial-gradient(circle at 24% 26%, rgb(159 80 232 / 22%) 0%, transparent 34%),
+    linear-gradient(90deg, rgb(23 6 50 / 93%) 0%, rgb(28 8 61 / 72%) 40%, rgb(34 9 72 / 40%) 70%, rgb(22 5 48 / 70%) 100%),
+    linear-gradient(0deg, rgb(18 4 42 / 88%) 0%, transparent 46%, rgb(35 9 72 / 20%) 100%);
 }
 
-.backgroundWatermarks span:nth-child(1) {
-  top: 7%;
-  left: 7%;
-}
-
-.backgroundWatermarks span:nth-child(2) {
-  top: 7%;
-  left: 70%;
-}
-
-.backgroundWatermarks span:nth-child(3) {
-  top: 47%;
-  left: 7%;
-}
-
-.backgroundWatermarks span:nth-child(4) {
-  top: 47%;
-  left: 70%;
-}
-
-.backgroundWatermarks span:nth-child(5) {
-  top: 87%;
-  left: 7%;
-}
-
-.backgroundWatermarks span:nth-child(6) {
-  top: 87%;
-  left: 70%;
+.page::after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  opacity: 0.2;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E");
 }
 
 .stage {
-  position: relative;
-  z-index: 1;
   width: 100%;
-  height: 100%;
+  min-height: 100svh;
   overflow: auto;
   overscroll-behavior: contain;
-  scrollbar-color: rgb(255 255 255 / 24%) transparent;
+  scrollbar-color: rgb(255 255 255 / 22%) transparent;
   scrollbar-width: thin;
 }
 
 .stageInner {
-  min-width: 100%;
-  min-height: 100%;
-  display: flex;
+  width: min(100%, 1540px);
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: minmax(500px, 1fr) minmax(400px, 0.7fr);
   align-items: center;
-  justify-content: center;
-  gap: clamp(18px, 2.5vw, 46px);
-  padding: 28px max(90px, 8vw) 28px 28px;
+  gap: clamp(28px, 3.5vw, 56px);
+  margin-inline: auto;
+  padding: clamp(74px, 8vh, 110px) clamp(76px, 7vw, 120px);
 }
 
-.zoomSurface {
-  width: min(100vw, 1414px, calc(100svh * 0.707));
-  aspect-ratio: 1414 / 2000;
-  flex: 0 0 auto;
-  zoom: var(--poster-zoom);
-  filter: drop-shadow(0 20px 30px rgb(38 13 80 / 32%));
-}
-
-.poster {
+.heroPanel {
   position: relative;
-  container-type: inline-size;
   width: 100%;
-  height: 100%;
-  aspect-ratio: 1414 / 2000;
-  flex: 0 0 auto;
-  overflow: hidden;
-  border-radius: 15px;
-  isolation: isolate;
-  background: #1d315f;
+  max-width: 720px;
+  display: grid;
+  gap: clamp(24px, 3.2vh, 36px);
+  animation: panel-enter 700ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
 }
 
-.posterImage {
-  z-index: 0;
-  object-fit: contain;
-  user-select: none;
+.heroPanel::before {
+  position: absolute;
+  z-index: -1;
+  top: -12%;
+  right: -4%;
+  bottom: -10%;
+  left: -10%;
+  border-radius: 48px;
+  background: radial-gradient(circle at 28% 35%, rgb(135 66 209 / 20%), transparent 68%);
+  content: "";
+  filter: blur(18px);
   pointer-events: none;
 }
 
-.infoCards {
-  --card-shadow: rgb(37 35 97 / 28%);
-  width: min(23vw, 310px);
-  min-width: 260px;
+.eventIntro {
+  position: relative;
   display: grid;
   gap: 14px;
-  flex: 0 0 auto;
+  text-shadow: 0 3px 24px rgb(0 0 0 / 34%);
+}
+
+.eventIntro::before {
+  width: 54px;
+  height: 5px;
+  border-radius: 99px;
+  background: var(--poster-red);
+  content: "";
+  box-shadow: 66px 0 0 var(--poster-gold);
+}
+
+.eventKicker {
+  margin-top: 4px;
+  color: #b8d9ff;
+  font-size: clamp(0.76rem, 0.9vw, 0.9rem);
+  font-weight: 900;
+  letter-spacing: 0.2em;
+}
+
+.eventIntro h1 {
+  max-width: 690px;
+  margin: 0;
+  color: #fff;
+  font-size: clamp(3.6rem, 5.8vw, 6.35rem);
+  font-weight: 900;
+  letter-spacing: -0.055em;
+  line-height: 0.92;
+}
+
+.eventIntro h1 span {
+  display: block;
+  background: linear-gradient(90deg, #fff 0%, #ffd9dc 34%, #ff6258 72%, #ed2832 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.eventIntro p {
+  margin: 2px 0 0;
+  color: rgb(235 244 251 / 80%);
+  font-size: clamp(1rem, 1.25vw, 1.18rem);
+  font-weight: 600;
+  line-height: 1.65;
+}
+
+.activityTags {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.activityTags span {
+  padding: 6px 10px;
+  border: 1px solid rgb(255 255 255 / 24%);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 7%);
+  color: rgb(255 255 255 / 72%);
+  font-size: 0.69rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  backdrop-filter: blur(8px);
+}
+
+.activityTags span:nth-child(1) {
+  border-color: rgb(255 255 255 / 38%);
+  color: #fff;
+}
+
+.activityTags span:nth-child(2) {
+  border-color: rgb(239 50 61 / 48%);
+  color: #ff8c93;
+}
+
+.activityTags span:nth-child(3) {
+  border-color: rgb(86 170 231 / 50%);
+  color: #9fd8ff;
+}
+
+.infoCards {
+  display: grid;
+  gap: 12px;
 }
 
 .infoCard {
   position: relative;
-  min-height: 126px;
+  min-width: 0;
   display: flex;
   align-items: center;
-  gap: 15px;
-  padding: 21px 24px;
+  gap: 14px;
+  padding: 18px 19px;
   overflow: hidden;
-  border: 1px solid rgb(255 255 255 / 58%);
+  border: 1px solid rgb(165 205 255 / 22%);
   border-radius: 20px;
-  background: linear-gradient(135deg, #078fa5 0%, #477fc5 100%);
-  box-shadow: 0 16px 34px var(--card-shadow);
+  background: rgb(16 31 82 / 78%);
+  box-shadow: 0 16px 42px rgb(13 2 31 / 18%);
   color: #fff;
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(18px) saturate(120%);
+}
+
+.registrationCard {
+  grid-column: 1 / -1;
+  min-height: 90px;
+  border-color: rgb(255 193 186 / 55%);
+  background: linear-gradient(115deg, var(--poster-red) 0%, #e52a26 58%, var(--poster-orange) 100%);
+  box-shadow: 0 18px 42px rgb(178 19 31 / 28%);
+  text-decoration: none;
+}
+
+.checkCard {
+  grid-column: 1 / -1;
+  min-height: 78px;
+  border-left: 3px solid #73bdf1;
+  background: linear-gradient(110deg, rgb(7 49 119 / 92%), rgb(22 35 91 / 86%));
+  text-decoration: none;
+}
+
+.registrationCard,
+.checkCard {
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.registrationCard:hover,
+.registrationCard:focus-visible,
+.checkCard:hover,
+.checkCard:focus-visible {
+  border-color: rgb(255 255 255 / 50%);
+  box-shadow: 0 22px 55px rgb(0 0 0 / 28%);
+  outline: none;
+  transform: translateY(-3px);
 }
 
 .cardIcon {
-  position: relative;
-  z-index: 1;
-  width: clamp(30px, 3vw, 42px);
-  height: clamp(30px, 3vw, 42px);
+  width: 34px;
+  height: 34px;
   flex: 0 0 auto;
-  color: rgb(255 255 255 / 76%);
+  color: #9fd8ff;
   fill: none;
   stroke: currentColor;
   stroke-linecap: round;
@@ -144,78 +238,149 @@
   stroke-width: 1.8;
 }
 
+.registrationCard .cardIcon {
+  color: #fff;
+}
+
 .cardContent {
-  position: relative;
-  z-index: 1;
   min-width: 0;
   display: grid;
-  gap: 3px;
+  gap: 2px;
 }
 
 .cardEyebrow {
-  color: rgb(255 255 255 / 72%);
-  font-size: clamp(0.76rem, 1vw, 0.9rem);
+  color: rgb(255 255 255 / 57%);
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.02em;
+}
+
+.registrationCard .cardEyebrow {
+  color: rgb(255 255 255 / 74%);
 }
 
 .infoCard strong {
-  font-size: clamp(1.18rem, 1.65vw, 1.7rem);
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
   font-weight: 900;
-  line-height: 1.16;
+  line-height: 1.3;
 }
 
-.cardNumber {
-  font-size: clamp(2rem, 3vw, 3.15rem) !important;
-  font-variant-numeric: tabular-nums;
-  background: transparent;
-  border-radius: 0;
-  box-shadow: none;
-  padding: 0;
+.cardArrow {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  margin-left: auto;
+  border: 1px solid rgb(255 255 255 / 22%);
+  border-radius: 50%;
+  background: rgb(255 255 255 / 9%);
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.participantSummary {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 2px 4px 16px;
+  border-bottom: 1px solid rgb(179 210 255 / 22%);
+  color: #fff;
+}
+
+.participantSummary .cardIcon {
+  width: 42px;
+  height: 42px;
+  padding: 9px;
+  border: 1px solid rgb(130 207 255 / 32%);
+  border-radius: 50%;
+  background: rgb(7 55 127 / 48%);
+  color: #82cfff;
+}
+
+.participantSummary .cardNumber {
+  font-size: clamp(2.6rem, 4vw, 4rem) !important;
+}
+
+.posterCountdown {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  width: 100%;
+  padding: 13px 16px;
+  border: 1px solid rgb(255 213 54 / 28%);
+  border-radius: 16px;
+  background: linear-gradient(110deg, rgb(49 20 91 / 94%), rgb(10 42 102 / 94%));
+  box-shadow: 0 16px 34px rgb(12 3 30 / 24%);
+  color: #fff;
+  backdrop-filter: blur(14px);
+}
+
+.posterCountdown .cardIcon {
+  width: 31px;
+  height: 31px;
+  color: var(--poster-gold);
+}
+
+.posterCountdown .cardContent {
+  flex: 1;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 2px 12px;
+}
+
+.posterCountdown .cardEyebrow {
+  grid-column: 1 / -1;
+}
+
+.posterCountdown .cardNumber {
+  font-size: 1.55rem !important;
+}
+
+.posterCountdown .countdownLine {
+  justify-content: flex-end;
+  margin-top: 0;
 }
 
 .cardValue {
   display: flex;
   align-items: baseline;
-  gap: 7px;
+  gap: 6px;
+}
+
+.cardNumber {
+  padding: 0;
+  color: #fff;
+  font-size: clamp(1.9rem, 2.7vw, 2.9rem) !important;
+  font-variant-numeric: tabular-nums;
+  line-height: 1 !important;
 }
 
 .cardUnit {
-  color: rgb(255 255 255 / 78%);
-  font-size: 0.9rem;
+  color: rgb(255 255 255 / 58%);
+  font-size: 0.78rem;
   font-weight: 700;
 }
 
 .countdownLine {
-  position: relative;
-  top: 3px;
   display: flex;
-  align-items: baseline;
-  gap: 8px;
-  color: rgb(255 255 255 / 72%);
-  font-size: 15px;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  margin-top: 8px;
+  color: rgb(255 255 255 / 54%);
+  font-size: 0.68rem;
   font-weight: 700;
-  line-height: 1;
-  white-space: nowrap;
 }
 
 .countdownPart {
   display: inline-flex;
   align-items: baseline;
-  gap: 4px;
+  gap: 2px;
   white-space: nowrap;
 }
 
 .countdownNumber {
-  display: inline-flex;
-  min-width: 1.55em;
+  min-width: 1.4em;
   color: #fff;
   font-variant-numeric: tabular-nums;
-  text-align: right;
-  background: transparent;
-  border-radius: 0;
-  box-shadow: none;
-  padding: 0;
 }
 
 .countdownDigit {
@@ -223,271 +388,121 @@
   animation: countdown-slide-down 280ms cubic-bezier(0.22, 0.8, 0.3, 1);
 }
 
-@keyframes countdown-slide-down {
-  from {
-    opacity: 0;
-    transform: translateY(-65%);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.registrationCard {
-  background: linear-gradient(135deg, #ff8147 0%, #e03b61 100%);
-  box-shadow: 0 16px 34px var(--card-shadow);
-  text-decoration: none;
-  transition: transform 180ms ease, box-shadow 180ms ease;
-}
-
-.registrationCard strong {
-  font-size: clamp(0.96rem, 1.15vw, 1.25rem);
-  white-space: nowrap;
-}
-
-.registrationCard .cardContent {
-  align-items: center;
-  text-align: center;
-}
-
-.cardLinkHint {
-  color: rgb(255 255 255 / 72%);
-  font-size: 0.82rem;
-  font-weight: 700;
-}
-
-.registrationCard .cardIcon {
-  color: rgb(255 255 255 / 82%);
-}
-
-.participantCard {
-  background: linear-gradient(135deg, #078a72 0%, #24b96f 100%);
-}
-
-.checkCard {
-  background: linear-gradient(135deg, #078fa5 0%, #477fc5 100%);
-  box-shadow: 0 16px 34px var(--card-shadow);
-  text-decoration: none;
-  transition: transform 180ms ease, box-shadow 180ms ease;
-}
-
-.checkCard:hover,
-.checkCard:focus-visible {
-  box-shadow: 0 20px 42px rgb(13 34 89 / 42%);
-  outline: none;
-  transform: translateY(-3px);
-}
-
-.checkCard strong {
-  font-size: clamp(1rem, 1.35vw, 1.4rem);
-  white-space: nowrap;
-}
-
-.countdownCard {
-  border-color: rgb(255 255 255 / 58%);
-  background: linear-gradient(135deg, #2f5bad 0%, #7353bd 100%);
-  box-shadow: 0 16px 34px var(--card-shadow);
-}
-
-.registrationCard:hover,
-.registrationCard:focus-visible {
-  box-shadow: 0 20px 42px rgb(13 34 89 / 42%);
-  outline: none;
-  transform: translateY(-3px);
-}
-
-.districtNumbers,
-.activityNumbers,
-.activityLabels {
-  position: absolute;
-  z-index: 1;
+.zoomSurface {
+  width: min(38vw, 490px, calc(92svh * 0.707));
   display: grid;
-  color: #050505;
-  font-family: var(--font-poster), "Noto Sans Thai", Tahoma, sans-serif;
-  font-weight: 800;
-  font-variant-numeric: tabular-nums;
+  gap: 12px;
+  justify-self: end;
+  opacity: 1;
+  animation: poster-enter 800ms 100ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
 }
 
-.districtNumbers {
-  left: 36.068%;
-  top: 23.1%;
-  width: 62.518%;
-  height: 39.4%;
-  grid-template-rows: repeat(11, 1fr);
-  font-size: 2.04cqw;
-  line-height: 1;
-}
-
-.districtRow {
-  display: grid;
-  min-height: 0;
-  grid-template-columns: 25.34% 26.16% 27.41% 21.09%;
-}
-
-.districtRow > span,
-.activityRow > span {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 0;
-  border-right: max(1px, 0.106cqw) solid #181818;
-  border-bottom: max(1px, 0.106cqw) solid #181818;
-}
-
-.districtRow > span:first-child,
-.activityRow > span:first-child {
-  border-left: max(1px, 0.106cqw) solid #181818;
-}
-
-.districtRow:first-child > span {
-  border-top: max(1px, 0.106cqw) solid #181818;
-}
-
-.population,
-.percent {
-  background: #f7f7f7;
-}
-
-.target {
-  background: #00bd67;
-}
-
-.registered {
-  background: #ffdf5d;
-}
-
-.activityNumbers {
-  left: 22.136%;
-  top: 71.55%;
-  width: 45.333%;
-  height: 21.35%;
-  grid-template-rows: repeat(4, 1fr);
-  font-size: 2.02cqw;
-  line-height: 1;
-}
-
-.activityLabels {
-  left: 3.18%;
-  top: 71.55%;
-  width: 18.96%;
-  height: 21.35%;
-  grid-template-rows: repeat(4, 1fr);
-  color: #050505;
-  font-size: 1.8cqw;
-  line-height: 1;
-  text-align: center;
-}
-
-.activityLabel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 0;
-  padding-inline: 0.35cqw;
-  border-right: max(1px, 0.106cqw) solid #181818;
-  border-bottom: max(1px, 0.106cqw) solid #181818;
-  border-left: max(1px, 0.106cqw) solid #181818;
-  background: #f8f8f8;
-  font-weight: 800;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.activityLabel:first-child {
-  border-top: max(1px, 0.106cqw) solid #181818;
-}
-
-.activityLabel[data-summary] {
-  background: #00bd67;
-}
-
-.activityRow {
-  display: grid;
-  min-height: 0;
-  grid-template-columns: 31.67% 30.89% 37.44%;
-}
-
-.activityRow > span {
-  background: #f8f8f8;
-}
-
-.activityRow:first-child > span {
-  border-top: max(1px, 0.106cqw) solid #181818;
-}
-
-.activityRow:last-child > span {
-  background: #00bd67;
-}
-
-.posterStatus {
-  position: absolute;
-  z-index: 3;
-  top: 62.5%;
-  right: 1.4%;
-  left: 4.2%;
-  height: 3.55%;
-  display: grid;
-  grid-template-columns: 55% 45%;
-  align-items: center;
-  gap: 1.2cqw;
-  padding-inline: 0.8cqw;
-  background: #1d315f;
-  font-family: var(--font-poster), "Noto Sans Thai", Tahoma, sans-serif;
-}
-
-.updateText {
-  margin: 0;
-  overflow: hidden;
-  color: #fff;
-  font-size: 1.72cqw;
-  font-weight: 900;
-  line-height: 1;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.progressGroup {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 1.1cqw;
-  min-width: 0;
-}
-
-.progressTrack {
-  height: 2.25cqw;
-  overflow: hidden;
-  border-radius: 999px;
-  background: rgb(255 255 255 / 15%);
-  box-shadow: inset 0 0 0 max(1px, 0.08cqw) rgb(255 255 255 / 12%);
-}
-
-.progressFill {
+.posterTrigger {
   display: block;
-  height: 100%;
-  border-radius: inherit;
-  background: #ff1717;
-  transition: width 420ms ease;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  text-align: inherit;
+  cursor: zoom-in;
 }
 
-.progressPercent {
-  min-width: 7.2cqw;
+.posterTrigger:focus-visible {
+  outline: 3px solid var(--poster-gold);
+  outline-offset: 7px;
+}
+
+.posterTrigger .poster {
+  transition:
+    filter 180ms ease,
+    transform 180ms ease;
+}
+
+.posterTrigger:hover .poster {
+  filter: drop-shadow(0 34px 66px rgb(14 2 35 / 46%));
+  transform: translateY(-3px);
+}
+
+.poster {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1414 / 2000;
+  overflow: hidden;
+  border: 1px solid rgb(175 215 255 / 36%);
+  border-radius: 10px;
+  background: #1d315f;
+  box-shadow:
+    0 0 0 7px rgb(8 39 102 / 30%),
+    0 0 0 8px rgb(165 211 255 / 14%);
+  filter: drop-shadow(0 30px 60px rgb(14 2 35 / 38%));
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: clamp(18px, 3vw, 40px);
+  background: rgb(12 3 30 / 88%);
+  cursor: zoom-out;
+  backdrop-filter: blur(18px) saturate(80%);
+  animation: lightbox-fade-in 220ms ease-out both;
+}
+
+.lightboxPoster {
+  width: min(92vw, calc(90dvh * 0.707));
+  max-height: 90dvh;
+  cursor: default;
+  filter: drop-shadow(0 30px 80px rgb(0 0 0 / 55%));
+  animation: lightbox-poster-in 300ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+.lightboxPoster .poster {
+  border-radius: 12px;
+  filter: none;
+}
+
+.lightboxClose {
+  position: absolute;
+  top: max(16px, env(safe-area-inset-top));
+  right: max(16px, env(safe-area-inset-right));
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0 0 3px;
+  border: 1px solid rgb(255 255 255 / 28%);
+  border-radius: 50%;
+  background: rgb(28 8 61 / 76%);
   color: #fff;
-  font-size: 2.45cqw;
-  font-weight: 700;
+  font: inherit;
+  font-size: 1.8rem;
   line-height: 1;
-  text-align: right;
-  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+}
+
+.lightboxClose:hover,
+.lightboxClose:focus-visible {
+  border-color: rgb(255 255 255 / 60%);
+  background: rgb(57 18 106 / 92%);
+  outline: none;
+}
+
+.posterImage {
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
 }
 
 .settings {
   position: absolute;
   z-index: 11;
-  top: max(12px, env(safe-area-inset-top));
-  right: max(12px, env(safe-area-inset-right));
+  top: max(16px, env(safe-area-inset-top));
+  right: max(16px, env(safe-area-inset-right));
 }
 
 .settingsButton {
@@ -496,16 +511,14 @@
   display: grid;
   place-items: center;
   padding: 0;
-  border: 1px solid rgb(255 255 255 / 16%);
+  border: 1px solid rgb(255 255 255 / 20%);
   border-radius: 50%;
-  background: rgb(8 25 58 / 66%);
+  background: rgb(32 9 67 / 72%);
   color: #fff;
   box-shadow: 0 8px 30px rgb(0 0 0 / 18%);
-  opacity: 0.48;
   cursor: pointer;
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(14px);
   transition:
-    opacity 160ms ease,
     background 160ms ease,
     transform 160ms ease;
 }
@@ -513,8 +526,8 @@
 .settingsButton:hover,
 .settingsButton:focus-visible,
 .settingsButton[aria-expanded="true"] {
-  background: rgb(8 25 58 / 88%);
-  opacity: 1;
+  background: rgb(37 11 76 / 96%);
+  outline: none;
   transform: rotate(18deg);
 }
 
@@ -529,7 +542,7 @@
   padding: 7px;
   border: 1px solid rgb(255 255 255 / 15%);
   border-radius: 16px;
-  background: rgb(8 25 58 / 92%);
+  background: rgb(37 11 76 / 96%);
   box-shadow: 0 18px 50px rgb(0 0 0 / 30%);
   backdrop-filter: blur(18px);
 }
@@ -541,157 +554,199 @@
   font-size: 0.88rem;
   font-weight: 700;
   text-decoration: none;
-  transition:
-    color 140ms ease,
-    background 140ms ease;
 }
 
 .settingsMenu a:hover,
 .settingsMenu a:focus-visible {
-  background: rgb(104 226 228 / 13%);
-  color: #68e2e4;
+  background: rgb(201 146 255 / 14%);
+  color: #d8b1ff;
   outline: none;
 }
 
-.zoomControl {
-  position: absolute;
-  z-index: 10;
-  right: max(12px, env(safe-area-inset-right));
-  bottom: max(12px, env(safe-area-inset-bottom));
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  padding: 6px;
-  border: 1px solid rgb(255 255 255 / 16%);
-  border-radius: 999px;
-  background: rgb(8 25 58 / 68%);
-  box-shadow: 0 8px 30px rgb(0 0 0 / 18%);
-  opacity: 0.42;
-  backdrop-filter: blur(12px);
-  transition: opacity 160ms ease;
-}
+@keyframes panel-enter {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
 
-.zoomControl:hover,
-.zoomControl:focus-within {
-  opacity: 0.96;
-}
-
-.zoomControl button {
-  flex: 0 0 auto;
-  width: 34px;
-  height: 34px;
-  padding: 0;
-  border: 0;
-  border-radius: 999px;
-  background: rgb(255 255 255 / 9%);
-  color: #fff;
-  font: inherit;
-  font-size: 1rem;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-.zoomControl button:hover:not(:disabled) {
-  background: rgb(255 255 255 / 18%);
-}
-
-.zoomControl button:disabled {
-  cursor: default;
-  opacity: 0.42;
-}
-
-@media (pointer: coarse) {
-  .zoomControl,
-  .settingsButton {
-    opacity: 0.68;
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
-@media (max-width: 720px) {
-  .page {
-    height: 100dvh;
+@keyframes poster-enter {
+  from {
+    opacity: 0;
+    transform: translateY(28px) rotate(1deg);
   }
 
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(0);
+  }
+}
+
+@keyframes countdown-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-55%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes lightbox-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes lightbox-poster-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@media (max-width: 1080px) {
   .stageInner {
-    align-items: center;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 16px;
-    padding: 62px 16px 92px;
+    grid-template-columns: minmax(430px, 1fr) minmax(330px, 0.66fr);
+    gap: 30px;
+    padding-inline: 44px;
+  }
+
+  .eventIntro h1 {
+    font-size: clamp(3rem, 6.2vw, 4.7rem);
   }
 
   .zoomSurface {
-    width: min(calc(100vw - 32px), 390px);
-    zoom: 1;
+    width: min(40vw, 430px, calc(86svh * 0.707));
+  }
+}
+
+@media (max-width: 760px) {
+  .page,
+  .stage {
+    min-height: 100dvh;
+  }
+
+  .page {
+    overflow: auto;
+  }
+
+  .backgroundPhoto {
+    position: fixed;
+    background-position: 53% center;
+  }
+
+  .page::before,
+  .page::after {
+    position: fixed;
+  }
+
+  .page::before {
+    background:
+      linear-gradient(180deg, rgb(27 7 57 / 58%) 0%, rgb(27 7 57 / 89%) 35%, rgb(21 5 48 / 98%) 100%),
+      linear-gradient(90deg, rgb(31 8 65 / 46%), transparent);
+  }
+
+  .stage {
+    overflow: visible;
+  }
+
+  .stageInner {
+    min-height: 0;
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 76px 18px 112px;
+  }
+
+  .heroPanel {
+    max-width: 520px;
+    justify-self: center;
+    gap: 26px;
+  }
+
+  .eventIntro {
+    gap: 11px;
+  }
+
+  .eventIntro h1 {
+    font-size: clamp(3rem, 15vw, 5rem);
+  }
+
+  .eventIntro p {
+    font-size: 0.95rem;
   }
 
   .infoCards {
-    width: min(100%, 390px);
-    min-width: 0;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
   }
 
-  .registrationCard {
-    grid-column: 1 / -1;
-  }
-
-  .checkCard {
-    grid-column: 1 / -1;
-  }
-
-  .participantCard {
-    grid-column: 1 / -1;
-  }
-
-  .countdownCard {
-    grid-column: 1 / -1;
-  }
-
   .infoCard {
-    min-height: 102px;
-    gap: 11px;
-    padding: 15px;
-    border-radius: 16px;
+    border-radius: 17px;
+  }
+
+  .participantSummary {
+    padding-bottom: 14px;
+  }
+
+  .zoomSurface {
+    width: min(100%, 440px);
+    justify-self: center;
+    opacity: 1;
+  }
+
+  .poster {
+    filter: drop-shadow(0 24px 46px rgb(14 2 35 / 34%));
+  }
+
+}
+
+@media (max-width: 400px) {
+  .stageInner {
+    padding-inline: 14px;
+  }
+
+  .eventIntro h1 {
+    font-size: 2.85rem;
+  }
+
+  .registrationCard,
+  .checkCard {
+    padding-inline: 15px;
   }
 
   .cardIcon {
-    width: 29px;
-    height: 29px;
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroPanel,
+  .zoomSurface,
+  .countdownDigit,
+  .lightbox,
+  .lightboxPoster {
+    animation: none;
   }
 
-  .infoCard strong {
-    font-size: 1.08rem;
-  }
-
-  .cardNumber {
-    font-size: clamp(1.7rem, 10vw, 2.25rem) !important;
-  }
-
-  .cardUnit {
-    font-size: 0.8rem;
-  }
-
-  .countdownLine {
-    flex-wrap: nowrap;
-    justify-content: center;
-    gap: 5px;
-    font-size: calc(0.8rem + 2px);
-    white-space: nowrap;
-  }
-
-  .countdownPart {
-    gap: 2px;
-  }
-
-  .settingsButton {
-    width: 40px;
-    height: 40px;
-  }
-
-  .zoomControl {
-    right: max(10px, env(safe-area-inset-right));
-    bottom: max(10px, env(safe-area-inset-bottom));
+  .registrationCard,
+  .checkCard {
+    transition: none;
   }
 }

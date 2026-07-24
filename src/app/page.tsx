@@ -56,55 +56,75 @@ export default async function Home() {
   return (
     <PosterViewport
       sidePanel={
-        <aside className={styles.infoCards} aria-label="Event information">
-          <a
-            className={`${styles.infoCard} ${styles.registrationCard}`}
-            href="https://wrb12.thai.run/event/PLK"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <CardIcon type="register" />
-            <span className={styles.cardContent}>
-              <strong>สมัครเข้าร่วมกิจกรรม</strong>
-              <span className={styles.cardLinkHint}>คลิกที่นี่</span>
-            </span>
-          </a>
+        <aside className={styles.heroPanel} aria-label="Event information">
+          <header className={styles.eventIntro}>
+            <span className={styles.eventKicker}>PHITSANULOK · 2026</span>
+            <h1>
+              เดิน วิ่ง ปั่น
+              <span>ป้องกันอัมพาต</span>
+            </h1>
+            <p>
+              ครั้งที่ 12 เฉลิมพระเกียรติ จังหวัดพิษณุโลก
+            </p>
+            <div className={styles.activityTags} aria-label="Walk Run Bike">
+              <span>WALK</span>
+              <span>RUN</span>
+              <span>BIKE</span>
+            </div>
+          </header>
 
-          <a
-            className={`${styles.infoCard} ${styles.checkCard}`}
-            href="https://wrb12.thai.run/check"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <CardIcon type="check" />
-            <span className={styles.cardContent}>
-              <strong>ตรวจสอบการสมัคร</strong>
-            </span>
-          </a>
-
-          <section className={`${styles.infoCard} ${styles.participantCard}`} aria-label="Registered participants">
-            <CardIcon type="person" />
-            <span className={styles.cardContent}>
-              <span className={styles.cardEyebrow}>ยอดผู้สมัคร</span>
-              <span className={styles.cardValue}>
-                <strong className={styles.cardNumber}>
-                  {posterData.summary.registered.toLocaleString("th-TH")}
-                </strong>
-                <span className={styles.cardUnit}>คน</span>
-              </span>
-            </span>
-          </section>
-
-          <section className={`${styles.infoCard} ${styles.countdownCard}`} aria-label="Time remaining">
-            <CardIcon type="calendar" />
+          <div className={styles.infoCards}>
+            <section className={styles.participantSummary} aria-label="Registered participants">
+              <CardIcon type="person" />
               <span className={styles.cardContent}>
-                <span className={styles.cardEyebrow}>
-                ปิดรับสมัครใน
+                <span className={styles.cardEyebrow}>สมัครแล้ว</span>
+                <span className={styles.cardValue}>
+                  <strong className={styles.cardNumber}>
+                    {posterData.summary.registered.toLocaleString("th-TH")}
+                  </strong>
+                  <span className={styles.cardUnit}>คน</span>
                 </span>
-              <Countdown initialDays={daysRemaining()} />
-            </span>
-          </section>
+              </span>
+            </section>
+
+            <a
+              className={`${styles.infoCard} ${styles.registrationCard}`}
+              href="https://wrb12.thai.run/event/PLK"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <CardIcon type="register" />
+              <span className={styles.cardContent}>
+                <span className={styles.cardEyebrow}>พร้อมแล้วไปด้วยกัน</span>
+                <strong>สมัครเข้าร่วมกิจกรรม</strong>
+              </span>
+              <span className={styles.cardArrow} aria-hidden="true">↗</span>
+            </a>
+
+            <a
+              className={`${styles.infoCard} ${styles.checkCard}`}
+              href="https://wrb12.thai.run/check"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <CardIcon type="check" />
+              <span className={styles.cardContent}>
+                <span className={styles.cardEyebrow}>ลงทะเบียนแล้ว?</span>
+                <strong>ตรวจสอบการสมัคร</strong>
+              </span>
+              <span className={styles.cardArrow} aria-hidden="true">↗</span>
+            </a>
+          </div>
         </aside>
+      }
+      posterFooter={
+        <section className={styles.posterCountdown} aria-label="Time remaining">
+          <CardIcon type="calendar" />
+          <span className={styles.cardContent}>
+            <span className={styles.cardEyebrow}>ปิดรับสมัครใน</span>
+            <Countdown initialDays={daysRemaining()} />
+          </span>
+        </section>
       }
     >
       <section

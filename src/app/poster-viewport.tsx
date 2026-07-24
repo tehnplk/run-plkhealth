@@ -6,28 +6,22 @@ import {
   useEffect,
   useRef,
   useState,
-  type CSSProperties,
   type ReactNode,
 } from "react";
 import styles from "./page.module.css";
 
-const minZoom = 60;
-const maxZoom = 200;
-const zoomStep = 10;
-
 export function PosterViewport({
   children,
   sidePanel,
+  posterFooter,
 }: {
   children: ReactNode;
   sidePanel?: ReactNode;
+  posterFooter?: ReactNode;
 }) {
-  const [zoom, setZoom] = useState(90);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [viewerOpen, setViewerOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const zoomStyle = {
-    "--poster-zoom": zoom / 100,
-  } as CSSProperties;
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -51,22 +45,74 @@ export function PosterViewport({
     };
   }, [menuOpen]);
 
+  useEffect(() => {
+    if (!viewerOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") setViewerOpen(false);
+    }
+
+    document.addEventListener("keydown", closeOnEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [viewerOpen]);
+
   return (
     <main className={styles.page}>
-      <div className={styles.backgroundWatermarks} aria-hidden="true">
-        {Array.from({ length: 6 }, (_, index) => (
-          <span key={index}>WALK RUN BIKE 12</span>
-        ))}
-      </div>
+      <div className={styles.backgroundPhoto} aria-hidden="true" />
 
       <div className={styles.stage}>
         <div className={styles.stageInner}>
-          <div className={styles.zoomSurface} style={zoomStyle}>
-            {children}
-          </div>
           {sidePanel}
+          <div className={styles.zoomSurface}>
+            <div
+              className={styles.posterTrigger}
+              role="button"
+              tabIndex={0}
+              aria-label="เปิดดูโปสเตอร์ขนาดใหญ่"
+              onClick={() => setViewerOpen(true)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  setViewerOpen(true);
+                }
+              }}
+            >
+              {children}
+            </div>
+            {posterFooter}
+          </div>
         </div>
       </div>
+
+      {viewerOpen ? (
+        <div
+          className={styles.lightbox}
+          role="dialog"
+          aria-modal="true"
+          aria-label="โปสเตอร์กิจกรรมขนาดใหญ่"
+          onClick={() => setViewerOpen(false)}
+        >
+          <button
+            className={styles.lightboxClose}
+            type="button"
+            aria-label="ปิดโปสเตอร์"
+            autoFocus
+            onClick={() => setViewerOpen(false)}
+          >
+            ×
+          </button>
+          <div className={styles.lightboxPoster} onClick={(event) => event.stopPropagation()}>
+            {children}
+          </div>
+        </div>
+      ) : null}
 
       <div className={styles.settings} ref={menuRef}>
         <button
@@ -92,24 +138,6 @@ export function PosterViewport({
         ) : null}
       </div>
 
-      <div className={styles.zoomControl} aria-label="Poster zoom controls">
-        <button
-          type="button"
-          aria-label="Zoom in"
-          onClick={() => setZoom((value) => Math.min(maxZoom, value + zoomStep))}
-          disabled={zoom === maxZoom}
-        >
-          +
-        </button>
-        <button
-          type="button"
-          aria-label="Zoom out"
-          onClick={() => setZoom((value) => Math.max(minZoom, value - zoomStep))}
-          disabled={zoom === minZoom}
-        >
-          −
-        </button>
-      </div>
     </main>
   );
 }
